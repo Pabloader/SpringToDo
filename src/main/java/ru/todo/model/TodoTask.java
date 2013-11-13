@@ -5,12 +5,13 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,58 +24,58 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "todo_tasks")
-@NamedQueries({
-    @NamedQuery(name = "TodoTasks.findAll", query = "SELECT t FROM TodoTasks t")})
-public class TodoTasks implements Serializable {
+public class TodoTask implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "author_id")
-    private int authorId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
+    private TodoUser author;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
     private String title;
+
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     private String content;
-    @Basic(optional = false)
+
     @NotNull
     @Column(name = "creation_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationTime;
-    @Basic(optional = false)
+
     @NotNull
     @Column(name = "target_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date targetTime;
-    @Basic(optional = false)
+
     @NotNull
     private boolean completed;
-    @Basic(optional = false)
+
     @NotNull
     private int priority;
-    @Basic(optional = false)
+
     @NotNull
     @Column(name = "pub_status")
     private int pubStatus;
 
-    public TodoTasks() {
+    public TodoTask() {
     }
 
-    public TodoTasks(Integer id) {
+    public TodoTask(Integer id) {
         this.id = id;
     }
 
-    public TodoTasks(Integer id, int authorId, String title, String content, Date creationTime, Date targetTime, boolean completed, int priority, int pubStatus) {
+    public TodoTask(Integer id, TodoUser author, String title, String content, Date creationTime, Date targetTime, boolean completed, int priority, int pubStatus) {
         this.id = id;
-        this.authorId = authorId;
+        this.author = author;
         this.title = title;
         this.content = content;
         this.creationTime = creationTime;
@@ -92,12 +93,12 @@ public class TodoTasks implements Serializable {
         this.id = id;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public TodoUser getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(TodoUser author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -157,26 +158,8 @@ public class TodoTasks implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TodoTasks))
-            return false;
-        TodoTasks other = (TodoTasks) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "ru.todo.model.TodoTasks[ id=" + id + " ]";
+        return "TodoTask{" + "id=" + id + ", author=" + author + ", title=" + title + ", content=" + content + ", creationTime=" + creationTime + ", targetTime=" + targetTime + ", completed=" + completed + ", priority=" + priority + ", pubStatus=" + pubStatus + '}';
     }
 
 }

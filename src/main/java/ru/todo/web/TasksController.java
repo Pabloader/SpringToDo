@@ -3,9 +3,11 @@ package ru.todo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.todo.dao.TodoTasksDAO;
 import ru.todo.dao.TodoUsersDAO;
 import ru.todo.model.TodoUser;
@@ -15,6 +17,7 @@ import ru.todo.model.TodoUser;
  * @author P@bloid
  */
 @Controller
+@SessionAttributes
 public class TasksController {
 
     @Autowired
@@ -36,10 +39,8 @@ public class TasksController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String checkUserExists(@RequestParam("username") String username, @RequestParam("password") String password) {
-        TodoUser user = new TodoUser();
-        user.setLogin(username);
-        user.setPassword(password);
+    public String checkUserExists(@ModelAttribute("user") TodoUser user, BindingResult result) {
+
         if (todoUsersDAO.checkUserExists(user))
             return "redirect:/index";
         else

@@ -6,7 +6,8 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,11 +15,20 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form method="POST" action="register">
-            Логин: <input type="text" name="username"><br/>
-            Пассворд: <input type="text" name="password"><br/>
-            <input type="submit">
-        </form>
+        <form:form method="POST" action="register" commandName="user">
+            <table>
+            <tr>
+                <td>Login: </td><td><form:input path="login" /></td>
+            </tr>
+            <tr>
+                <td>Password: </td><td><form:input path="password" /><br/></td>
+            </tr>
+            <form:hidden path="role" />
+            <tr>
+                <td colspan="2"><input type="submit"></td>
+            </tr>
+            </table>
+        </form:form>
         <c:forEach items="${tasksList}" var="task">
             ${task}<br>
         </c:forEach>

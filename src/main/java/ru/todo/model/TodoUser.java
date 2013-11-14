@@ -24,18 +24,19 @@ public class TodoUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @NotNull
     @Size(min = 1, max = 64)
     private String login;
-    
+
     @NotNull
     @Size(min = 1, max = 64)
     private String password;
-    
+
     @NotNull
+    @GeneratedValue
     private int role;
-    
+
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<TodoTask> tasks;
 
@@ -97,6 +98,6 @@ public class TodoUser implements Serializable {
     public String toString() {
         return "TodoUser{" + "id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + '}';
     }
-    
+
 
 }

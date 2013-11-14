@@ -34,6 +34,7 @@ public class TasksController {
     @RequestMapping("/index")
     public String listTasks(Model ui)
     {
+        ui.addAttribute("user", new TodoUser());
         ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
         return "todolist";
     }

@@ -34,7 +34,6 @@ public class TodoUser implements Serializable {
     private String password;
 
     @NotNull
-    @GeneratedValue
     private int role;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)

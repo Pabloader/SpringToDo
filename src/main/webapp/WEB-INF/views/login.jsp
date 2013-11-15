@@ -12,6 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="<c:url value="/resources/style.css"/>"/>
         <title>Todo login</title>
     </head>
     <body>

@@ -16,20 +16,22 @@
         <title>Todo login</title>
     </head>
     <body>
-        Здесь типа форма регистрации
-        <form:form method="POST" action="register" commandName="user">
-            <table>
-                <tr>
-                    <td>Login: </td><td><form:input path="login" /></td>
-                </tr>
-                <tr>
-                    <td>Password: </td><td><form:input path="password" /></td>
-                </tr>
-                <form:hidden path="role" />
-                <tr>
-                    <td colspan="2"><input type="submit"></td>
-                </tr>
-            </table>
-        </form:form>
+        <div class="register-block">
+            <h1>Наши милые тудушки!</h1>
+            <form:form id="loginForm" method="POST" action="register" commandName="user">
+                <table>
+                    <tr>
+                        <td>Login: </td><td><form:input path="login" /></td>
+                    </tr>
+                    <tr>
+                        <td>Password: </td><td><form:input path="password" /></td>
+                    </tr>
+                    <form:hidden path="role" />
+                    <tr>
+                        <td colspan="2"><input type="submit"></td>
+                    </tr>
+                </table>
+            </form:form>
+        </div>
     </body>
 </html>

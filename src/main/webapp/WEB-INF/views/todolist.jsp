@@ -16,7 +16,7 @@
     </head>
     <body>
         Здесь типа форма создания новой задачи
-        <form:form method="GET" action="add" commandName="task">
+        <form id="addTaskForm" method="POST" action="add">
             <table>
                 <tr>
                     <th colspan="2">New task creator!</th>
@@ -24,17 +24,19 @@
                 <tr>
                     <td>Task Title:</td>
                     <td rowspan="7">
-                        <form:textarea path="content" />
+                        <textarea name="taskContent">
+                            Покормите меня содержанием задачи!!!
+                        </textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td><form:input path="title" /></td>
+                    <td><input type="text" name="taskTitle" /></td>
                 </tr>
                     <td>TargetDate:</td>
                 </tr>
                 <tr>
                     <td>
-                        <form:input path="targetTime" />
+                        <input type="text" name="targetDate" />
                     </td>
                 </tr>
                 <tr>
@@ -44,19 +46,21 @@
                 </tr>
                 <tr>
                     <td>
-                        RADIOBUTTONZ WILL ARRIVE!
+                        <input type="radio" name="pubAccess" value="0" checked /> <!-- notPublic -->
+                        <input type="radio" name="pubAccess" value="1" /> <!-- publicReadable -->
+                        <input type="radio" name="pubAccess" value="2" /> <!-- publicEditable -->
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Priority: <form:input path="priority" />
+                        Priority: <input type="text" name="taskPriority" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit"/></td>
                 </tr>
             </table>
-        </form:form>
+        </form>
 
         <br/><br/><br/>
         Здесь типа список доступных задач

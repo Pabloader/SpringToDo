@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.todo.dao.TodoTasksDAO;
 import ru.todo.dao.TodoUsersDAO;
+import ru.todo.model.TodoTask;
 import ru.todo.model.TodoUser;
 
 /**
@@ -28,13 +29,19 @@ public class TasksController {
     @RequestMapping("/")
     public String home()
     {
-       return "redirect:/index";
+       return "redirect:/todolist";
     }
 
-    @RequestMapping("/index")
+    @RequestMapping("/login")
+    public String login(Model ui) {
+        ui.addAttribute("user", new TodoUser());
+        return "login";
+    }
+
+    @RequestMapping("/todolist")
     public String listTasks(Model ui)
     {
-        ui.addAttribute("user", new TodoUser());
+        ui.addAttribute("task", new TodoTask());
         ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
         return "todolist";
     }
@@ -43,9 +50,17 @@ public class TasksController {
     public String checkUserExists(@ModelAttribute("user") TodoUser user, BindingResult result) {
 
         if (todoUsersDAO.checkUserExists(user))
-            return "redirect:/index";
+            return "redirect:/todolist";
         else
             return "error";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String addTask(@ModelAttribute("task") TodoTask task, BindingResult result) {
+
+        todoTaskDAO.addTask(task);
+        return "todolist";
+        
     }
 
 

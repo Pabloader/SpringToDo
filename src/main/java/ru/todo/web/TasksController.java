@@ -34,17 +34,13 @@ public class TasksController {
     @Autowired
     private TodoUsersDAO todoUsersDAO;
 
+    // Основной редирект на главную страницу
     @RequestMapping("/")
     public String home() {
         return "redirect:/todolist";
     }
 
-    @RequestMapping("/login")
-    public String login(Model ui) {
-        ui.addAttribute("user", new TodoUser());
-        return "login";
-    }
-
+    // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
     @RequestMapping("/todolist")
     public String listTasks(Model ui) {
         ui.addAttribute("task", new TodoTask());
@@ -52,12 +48,40 @@ public class TasksController {
         return "todolist";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String checkUserExists(@ModelAttribute("user") TodoUser user, BindingResult result) {
+    // Обработка перехода на форму входа в систему
+    @RequestMapping("/login")
+    public String login(Model ui) {
+        ui.addAttribute("user", new TodoUser());
+        return "login";
+    }
 
+    // Обработка POST-запроса из формы входа в систему
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String checkUserExists(@ModelAttribute("user") TodoUser user, BindingResult result) {
         if (todoUsersDAO.checkUserExists(user)) {
             return "redirect:/todolist";
         } else {
+            return "error";
+        }
+    }
+
+    @RequestMapping("/register")
+    public String register(Model ui) {
+        ui.addAttribute("newUser", new TodoUser());
+        return "register";
+    }
+
+    // Обработка POST-запроса из формы регистрации нового пользователя
+    @RequestMapping(value="/register", method = RequestMethod.POST)
+    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result) {
+
+        if (user.getLogin().equals("") || user.getPassword().equals("")) {
+            todoUsersDAO.addUser(user);
+            System.out.println("User: \n ID: " + user.getId() +"\nLogin:"
+                    + user.getLogin() + "\nPassword:" + user.getPassword());
+            return "redirect:/todolist";
+        } else {
+            System.out.println("NUFF ENTERED");
             return "error";
         }
     }
@@ -102,10 +126,5 @@ public class TasksController {
 
         return "todolist";
     }
-    /*public String addTask(@ModelAttribute("task") TodoTask task, BindingResult result) {
 
-     todoTaskDAO.addTask(task);
-     return "todolist";
-
-     }*/
 }

@@ -12,80 +12,85 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="<c:url value="/resources/style.css"/>"/>
         <title>Todo list!</title>
     </head>
     <body>
         Здесь типа форма создания новой задачи
-        <form id="addTaskForm" method="POST" action="add">
-            <table>
-                <tr>
-                    <th colspan="2">New task creator!</th>
-                </tr>
-                <tr>
-                    <td>Task Title:</td>
-                    <td rowspan="7">
-                        <textarea name="taskContent">
+        <div class="page-block">
+            <form id="addTaskForm" method="POST" action="add">
+                <table>
+                    <tr>
+                        <th colspan="2">New task creator!</th>
+                    </tr>
+                    <tr>
+                        <td>Task Title:</td>
+                        <td rowspan="7">
+                            <textarea name="taskContent">
                             Покормите меня содержанием задачи!!!
-                        </textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="taskTitle" /></td>
-                </tr>
+                            </textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="taskTitle" /></td>
+                    </tr>
                     <td>TargetDate:</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" name="targetDate" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Accessibility
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="radio" name="pubAccess" value="0" checked /> <!-- notPublic -->
-                        <input type="radio" name="pubAccess" value="1" /> <!-- publicReadable -->
-                        <input type="radio" name="pubAccess" value="2" /> <!-- publicEditable -->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Priority: <input type="text" name="taskPriority" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit"/></td>
-                </tr>
-            </table>
-        </form>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="targetDate" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Accessibility
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="pubAccess" value="0" checked /> <!-- notPublic -->
+                            <input type="radio" name="pubAccess" value="1" /> <!-- publicReadable -->
+                            <input type="radio" name="pubAccess" value="2" /> <!-- publicEditable -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Priority: <input type="text" name="taskPriority" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
 
         <br/><br/><br/>
         Здесь типа список доступных задач
-        <c:forEach items="${tasksList}" var="task">
-            <table>
-                <tr>
-                    <th colspan="2">${task.title}</th>
-                </tr>
-                <tr>
-                    <td>Дата создания:</td>
-                    <td rowspan="5">${task.content}</td>
-                </tr>
-                <tr>
-                    <td>${task.creationTime}</td>
-                </tr>
-                <tr>
-                    <td>Дата выполнения:</td>
-                </tr>
-                <tr>
-                    <td>${task.targetTime}</td>
-                </tr>
-                <tr>
-                    <td>Приоритет: ${task.priority}</td>
-                </tr>
-            </table>
-        </c:forEach>
+        <div class="page-block">
+            <c:forEach items="${tasksList}" var="task">
+                <table class="task-table">
+                    <tr>
+                        <th colspan="2">${task.title}</th>
+                    </tr>
+                    <tr>
+                        <td>Дата создания:</td>
+                        <td rowspan="5">${task.content}</td>
+                    </tr>
+                    <tr>
+                        <td>${task.creationTime}</td>
+                    </tr>
+                    <tr>
+                        <td>Дата выполнения:</td>
+                    </tr>
+                    <tr>
+                        <td>${task.targetTime}</td>
+                    </tr>
+                    <tr>
+                        <td>Приоритет: ${task.priority}</td>
+                    </tr>
+                </table>
+            </c:forEach>
+        </div>
     </body>
 </html>

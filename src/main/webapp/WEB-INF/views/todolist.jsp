@@ -18,7 +18,7 @@
     <body>
         Здесь типа форма создания новой задачи
         <div class="page-block">
-            <form id="addTaskForm" method="POST" action="add">
+            <form:form id="addTaskForm" method="POST" action="add" commandName="task">
                 <table>
                     <tr>
                         <th colspan="2">New task creator!</th>
@@ -26,19 +26,17 @@
                     <tr>
                         <td>Task Title:</td>
                         <td rowspan="7">
-                            <textarea rows="10" cols="15" name="taskContent">
-                            Покормите меня содержанием задачи!!!
-                            </textarea>
+                            <form:textarea rows="10" cols="15" path="content"/>
                         </td>
                     </tr>
                     <tr>
-                        <td><input type="text" name="taskTitle" /></td>
+                        <td><form:input path="title"/></td>
                     </tr>
                     <td>TargetDate:</td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="targetDate" />
+                            <form:input path="targetTime"/>
                         </td>
                     </tr>
                     <tr>
@@ -48,21 +46,21 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="radio" name="pubAccess" value="0" checked /> <!-- notPublic -->
-                            <input type="radio" name="pubAccess" value="1" /> <!-- publicReadable -->
-                            <input type="radio" name="pubAccess" value="2" /> <!-- publicEditable -->
+                            <form:radiobutton path="pubStatus" value="0" checked="true"/> <!-- notPublic -->
+                            <form:radiobutton path="pubStatus" value="1"/> <!-- publicReadable -->
+                            <form:radiobutton path="pubStatus" value="2"/> <!-- publicEditable -->
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Priority: <input type="text" name="taskPriority" />
+                            Priority: <form:input path="priority"/>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit"/></td>
                     </tr>
                 </table>
-            </form>
+            </form:form>
         </div>
 
         <br/><br/><br/>

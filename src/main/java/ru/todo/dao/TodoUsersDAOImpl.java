@@ -32,26 +32,26 @@ public class TodoUsersDAOImpl implements TodoUsersDAO {
                 .setParameter("name", user.getLogin()).uniqueResult()) {
             sessionFactory.getCurrentSession().save(user);
             user_id = user.getId();
-        } else {
+        } else
             System.out.println("User with this name already exists");
-        }
         return user_id;
     }
 
     // Ищем в бд пользователя по логину и паролю.
     // Если пользователь найден - возвращаем его ID. Иначе возвращаем -1.
     @Override
-    public int checkUserExists(TodoUser user) {
+    public int getUserID(TodoUser user) {
         int user_id = -1;
         TodoUser tmpUser = (TodoUser) sessionFactory.getCurrentSession().createQuery("from TodoUser where login = :name and password = :pass")
                 .setParameter("name", user.getLogin())
                 .setParameter("pass", user.getPassword()).uniqueResult();
-        user_id = tmpUser.getId();
+        if (tmpUser != null)
+            user_id = tmpUser.getId();
         return user_id;
     }
 
     @Override
     public TodoUser findUserById(int id) {
-        return (TodoUser)sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByID").setParameter("user_id", id).uniqueResult();
+        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByID").setParameter("user_id", id).uniqueResult();
     }
 }

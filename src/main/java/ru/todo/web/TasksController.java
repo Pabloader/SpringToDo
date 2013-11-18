@@ -48,9 +48,18 @@ public class TasksController {
     // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
     @RequestMapping("/todolist")
     public String listTasks(Model ui, WebRequest webRequest) {
-        ui.addAttribute("task", new TodoTask());
-        ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
-        return "todolist";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
+            User user = (User)authentication.getPrincipal();
+            TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
+            webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
+            ui.addAttribute("task", new TodoTask());
+            ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
+            return "todolist";
+        } else {
+            return "error";
+        }
+
     }
 
     //Обрабока фейла

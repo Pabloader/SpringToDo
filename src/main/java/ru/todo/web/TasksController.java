@@ -37,7 +37,7 @@ public class TasksController {
     // Основной редирект на главную страницу
     @RequestMapping("/")
     public String home() {
-        return "redirect:/todolist";
+        return "redirect:/login";
     }
 
     // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
@@ -57,8 +57,10 @@ public class TasksController {
 
     // Обработка POST-запроса из формы входа в систему
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String checkUserExists(@ModelAttribute("user") TodoUser user, BindingResult result) {
-        if (todoUsersDAO.checkUserExists(user)) {
+    public String checkUserExists(@ModelAttribute("user") TodoUser user, WebRequest webRequest, BindingResult result) {
+        int user_id = todoUsersDAO.checkUserExists(user);
+        if (user_id != 0) {
+            webRequest.setAttribute("user_id", user_id, 1);
             return "redirect:/todolist";
         } else {
             return "error";
@@ -73,53 +75,42 @@ public class TasksController {
 
     // Обработка POST-запроса из формы регистрации нового пользователя
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result) {
+    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, WebRequest webRequest, BindingResult result) {
 
-        if (user.getLogin().equals("") || user.getPassword().equals("")) {
-            todoUsersDAO.addUser(user);
+            int user_id = todoUsersDAO.addUser(user);
+            webRequest.setAttribute("user_id", user_id, 1);
             System.out.println("User: \n ID: " + user.getId() +"\nLogin:"
                     + user.getLogin() + "\nPassword:" + user.getPassword());
             return "redirect:/todolist";
-        } else {
-            System.out.println("NUFF ENTERED");
-            return "error";
-        }
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addTask(WebRequest webRequest, Model ui) {
 
-        // Эта хренова куча должна быть в сервисе, так? Но сервиса у нас пока нет
+        // Эта куча должна быть в сервисе, так? Но сервиса у нас пока нет
         // Значит пускай пока что здесь полежит
-
-        // Ради теста принтим мапу
-        System.out.println(webRequest.getParameterMap());
 
         // Получение параметров из запроса
         String taskTitle = webRequest.getParameter("taskTitle");
         String taskContent = webRequest.getParameter("taskContent");
         String targetDate = webRequest.getParameter("targetDate");
-        Date tmpDate = new Date();
         int pubAccess = Integer.parseInt(webRequest.getParameter("pubAccess"));
         int taskPriority = Integer.parseInt(webRequest.getParameter("taskPriority"));
+        // Получаем автора задачи и создаем текущую дату
+        TodoUser author = todoUsersDAO.findUserById((Integer)webRequest.getAttribute("user_id", 1));
+        Date tmpDate = new Date();
 
-        // Создание нового класса задачи
-        TodoTask task = new TodoTask();
-        task.setTitle(taskTitle);
-        task.setContent(taskContent);
-        task.setCreationTime(new Date());
         // Парсим дату
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/mm/dd/hh/mm/ss");
             tmpDate = formatter.parse(targetDate);
         } catch (ParseException ex) {
-            // LOL WUT WHY PARSE EXCEPTION???
+            // Empty
         }
-        task.setTargetTime(tmpDate);
-        task.setCompleted(false);
-        task.setPriority(taskPriority);
-        task.setPubStatus(pubAccess);
-        // Создали задачу и ничего с ней не делаем
+        // Создаем задачу
+        TodoTask task = new TodoTask(null, author, taskTitle, taskContent, new Date(), tmpDate, false, taskPriority, pubAccess);
+        // И пытаемся добавить в базу
+        todoTaskDAO.addTask(task);
 
         // и не забыли получить обновленный список задач
         ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));

@@ -26,7 +26,7 @@
                     <tr>
                         <td>Task Title:</td>
                         <td rowspan="7">
-                            <textarea name="taskContent">
+                            <textarea rows="10" cols="15" name="taskContent">
                             Покормите меня содержанием задачи!!!
                             </textarea>
                         </td>
@@ -67,8 +67,8 @@
 
         <br/><br/><br/>
         Здесь типа список доступных задач
-        <div class="page-block">
-            <c:forEach items="${tasksList}" var="task">
+        <c:forEach items="${tasksList}" var="task">
+            <div class="page-block">
                 <table class="task-table">
                     <tr>
                         <th colspan="2">${task.title}</th>
@@ -90,7 +90,7 @@
                         <td>Приоритет: ${task.priority}</td>
                     </tr>
                 </table>
-            </c:forEach>
-        </div>
+            </div>
+        </c:forEach>
     </body>
 </html>

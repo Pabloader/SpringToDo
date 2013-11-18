@@ -85,6 +85,7 @@ public class TodoTask implements Serializable {
         this.pubStatus = pubStatus;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="getters/setters">
     public Integer getId() {
         return id;
     }
@@ -156,6 +157,7 @@ public class TodoTask implements Serializable {
     public void setPubStatus(int pubStatus) {
         this.pubStatus = pubStatus;
     }
+    //</editor-fold>
 
     @Override
     public String toString() {

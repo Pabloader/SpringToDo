@@ -12,7 +12,8 @@ import ru.todo.model.TodoUser;
  */
 public interface TodoUsersDAO {
 
-    public void addUser(TodoUser user);
-    public boolean checkUserExists(TodoUser user);
+    public int addUser(TodoUser user);
+    public int checkUserExists(TodoUser user);
+    public TodoUser findUserById(int id);
 
 }

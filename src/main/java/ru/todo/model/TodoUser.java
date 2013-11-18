@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  *
@@ -19,6 +21,9 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "todo_users")
+@NamedQueries({
+    @NamedQuery(name="TodoUser.GetUserByID", query="from TodoUser where id = :user_id")
+})
 public class TodoUser implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +58,7 @@ public class TodoUser implements Serializable {
         this.role = role;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="getters/setters">
     public Integer getId() {
         return id;
     }
@@ -92,6 +98,7 @@ public class TodoUser implements Serializable {
     public void setTasks(List<TodoTask> tasks) {
         this.tasks = tasks;
     }
+    //</editor-fold>
 
     @Override
     public String toString() {

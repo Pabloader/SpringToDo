@@ -5,11 +5,6 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://pabloader.ru:3306/pabloid_main</property>
-        <property name="hibernate.connection.username">pabloid_todo</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <property name="connection.password">thecakeisalie</property>
         <mapping class="ru.todo.model.TodoTask" />
         <mapping class="ru.todo.model.TodoUser" />
     </session-factory>

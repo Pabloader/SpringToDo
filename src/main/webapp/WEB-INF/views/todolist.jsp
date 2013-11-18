@@ -72,8 +72,11 @@
                         <th colspan="2">${task.title}</th>
                     </tr>
                     <tr>
+                        <td>Автор: <b>${task.author.login}</b></td>
+                    </tr>
+                    <tr>
                         <td>Дата создания:</td>
-                        <td rowspan="5">${task.content}</td>
+                        <td rowspan="6">${task.content}</td>
                     </tr>
                     <tr>
                         <td>${task.creationTime}</td>

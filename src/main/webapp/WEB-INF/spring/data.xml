@@ -34,12 +34,20 @@
         <property name="defaultLocale" value="en_US" />
     </bean>
     
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://pabloader.ru:3306/pabloid_main" />
+        <property name="username" value="pabloid_todo" />
+        <property name="password" value="thecakeisalie" />
+    </bean>
+    
     <!-- Настройки фабрики сессий Hibernate -->
     <bean id="sessionFactory"
-              class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
         </property>
+        <property name="dataSource" ref="dataSource"/>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
@@ -47,6 +55,7 @@
             <props>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.connection.charSet">UTF-8</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
             </props>
         </property>
     </bean>

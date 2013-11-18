@@ -9,6 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +32,6 @@ import ru.todo.model.TodoUser;
  * @author P@bloid
  */
 @Controller
-@SessionAttributes
 public class TasksController {
 
     @Autowired
@@ -46,30 +48,28 @@ public class TasksController {
     // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
     @RequestMapping("/todolist")
     public String listTasks(Model ui, WebRequest webRequest) {
-        TodoTask todoTask = new TodoTask();
-        TodoUser todoUser = todoUsersDAO.findUserById((Integer) webRequest.getAttribute("user_id", WebRequest.SCOPE_SESSION));
-        todoTask.setAuthor(todoUser);
-        ui.addAttribute("task", todoTask);
+        ui.addAttribute("task", new TodoTask());
         ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
         return "todolist";
     }
 
-    // Обработка перехода на форму входа в систему
-    @RequestMapping("/login")
-    public String login(Model ui) {
-        ui.addAttribute("user", new TodoUser());
+    //Обрабока фейла
+    @RequestMapping("/loginfailed")
+    public String loginFailed() {
         return "login";
     }
 
-    // Обработка POST-запроса из формы входа в систему
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String checkUserExists(@ModelAttribute("user") TodoUser user, WebRequest webRequest, BindingResult result) {
-        int user_id = todoUsersDAO.getUserID(user);
-        if (user_id != 0) {
-            webRequest.setAttribute("user_id", user_id, WebRequest.SCOPE_SESSION);
+    // Обработка перехода на форму входа в систему
+    @RequestMapping("/login")
+    public String login(WebRequest wr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
+            User user = (User) authentication.getPrincipal();
+            TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
+            wr.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             return "redirect:/todolist";
-        } else
-            return "error";
+        }
+        return "login";
     }
 
     @RequestMapping("/register")
@@ -80,10 +80,10 @@ public class TasksController {
 
     // Обработка POST-запроса из формы регистрации нового пользователя
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, WebRequest webRequest, BindingResult result) {
+    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result) {
 
-        int user_id = todoUsersDAO.addUser(user);
-        webRequest.setAttribute("user_id", user_id, WebRequest.SCOPE_SESSION);
+        todoUsersDAO.addUser(user);
+        //TODO Проверка на существование пользователя
         System.out.println("User: \n ID: " + user.getId() + "\nLogin:"
                            + user.getLogin() + "\nPassword:" + user.getPassword());
         return "redirect:/todolist";
@@ -92,21 +92,18 @@ public class TasksController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addTask(@ModelAttribute("task") TodoTask task, WebRequest webRequest, Model ui) {
 
-        TodoUser todoUser = todoUsersDAO.findUserById((Integer) webRequest.getAttribute("user_id", WebRequest.SCOPE_SESSION));
+        TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
         task.setAuthor(todoUser);
 
         todoTaskDAO.addTask(task);
-        // и не забыли получить обновленный список задач
-        ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
 
-        return "todolist";
+        return "redirect:/todolist";
     }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(
-                dateFormat, false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
 }

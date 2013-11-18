@@ -5,26 +5,20 @@
                 http://www.springframework.org/schema/security
                 http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http access-denied-page="/error403.jsp">
-        <intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS" />
-        <intercept-url pattern="/add*" access="ROLE_USER" />
-        <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
-        <form-login login-page="/login.jsp" default-target-url="/index"
-                    authentication-failure-url="/login.jsp?error=true" />
-        <logout logout-url="/logout" logout-success-url="/index" />
-		
-        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
-        <remember-me />
-    </http>
-
-    <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_ADMIN,ROLE_USER" />
-                <user name="user1" password="user1" authorities="ROLE_USER" />
-                <user name="user2" password="user2" disabled="true" authorities="ROLE_USER" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
+    <http auto-config="true">
+		<intercept-url pattern="/index*" access="ROLE_USER" />
+		<form-login login-page="/login" default-target-url="/"
+			authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
+	</http>
+ 
+	<authentication-manager>
+	   <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+		   users-by-username-query="select login as username, password, 1 as enabled from todo_users where login = ?" 
+		   authorities-by-username-query="select login as username, role as authority from todo_users where login = ?"  
+		/>
+	   </authentication-provider>
+	</authentication-manager>
 
 </beans:beans>

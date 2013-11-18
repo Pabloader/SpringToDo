@@ -13,7 +13,9 @@ import ru.todo.model.TodoUser;
 public interface TodoUsersDAO {
 
     public int addUser(TodoUser user);
-    public int getUserID(TodoUser user);
+
     public TodoUser findUserById(int id);
+
+    public TodoUser findUserByLogin(String username);
 
 }

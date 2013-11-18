@@ -27,31 +27,23 @@ public class TodoUsersDAOImpl implements TodoUsersDAO {
     // Иначе возвращаем ID = -1
     @Override
     public int addUser(TodoUser user) {
-        int user_id = -1;
-        if (null == sessionFactory.getCurrentSession().createQuery("from TodoUser where login = :name")
+        int userID = -1;
+        if (null == sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByLogin")
                 .setParameter("name", user.getLogin()).uniqueResult()) {
             sessionFactory.getCurrentSession().save(user);
-            user_id = user.getId();
+            userID = user.getId();
         } else
             System.out.println("User with this name already exists");
-        return user_id;
-    }
-
-    // Ищем в бд пользователя по логину и паролю.
-    // Если пользователь найден - возвращаем его ID. Иначе возвращаем -1.
-    @Override
-    public int getUserID(TodoUser user) {
-        int user_id = -1;
-        TodoUser tmpUser = (TodoUser) sessionFactory.getCurrentSession().createQuery("from TodoUser where login = :name and password = :pass")
-                .setParameter("name", user.getLogin())
-                .setParameter("pass", user.getPassword()).uniqueResult();
-        if (tmpUser != null)
-            user_id = tmpUser.getId();
-        return user_id;
+        return userID;
     }
 
     @Override
     public TodoUser findUserById(int id) {
         return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByID").setParameter("user_id", id).uniqueResult();
+    }
+
+    @Override
+    public TodoUser findUserByLogin(String username) {
+        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByLogin").setParameter("name", username).uniqueResult();
     }
 }

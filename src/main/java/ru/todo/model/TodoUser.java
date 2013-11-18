@@ -22,7 +22,8 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @Table(name = "todo_users")
 @NamedQueries({
-    @NamedQuery(name="TodoUser.GetUserByID", query="from TodoUser where id = :user_id")
+    @NamedQuery(name="TodoUser.GetUserByID", query="from TodoUser where id = :user_id"),
+    @NamedQuery(name="TodoUser.GetUserByLogin", query="from TodoUser where login = :name")
 })
 public class TodoUser implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,7 +40,7 @@ public class TodoUser implements Serializable {
     private String password;
 
     @NotNull
-    private int role;
+    private String role = "ROLE_USER";
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<TodoTask> tasks;
@@ -51,7 +52,7 @@ public class TodoUser implements Serializable {
         this.id = id;
     }
 
-    public TodoUser(Integer id, String login, String password, int role) {
+    public TodoUser(Integer id, String login, String password, String role) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -83,11 +84,11 @@ public class TodoUser implements Serializable {
         this.password = password;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

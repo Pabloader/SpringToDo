@@ -24,7 +24,7 @@ public class TodoTasksDAOImpl implements TodoTasksDAO {
 
     @Override
     public List<TodoTask> listTasks(int access) {
-        return sessionFactory.getCurrentSession().createQuery("from TodoTask").list();
+        return sessionFactory.getCurrentSession().createQuery("from TodoTask order by priority desc creationDate asc").list();
     }
 
 }

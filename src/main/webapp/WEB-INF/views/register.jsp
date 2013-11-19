@@ -10,7 +10,7 @@
         <title>Регистрация в тудушках</title>
     </head>
     <body>
-        <div class="register-block">
+        <div class="page-block">
             <h1>Форма регистрации</h1>
             <form:form id="registerForm" method="POST" action="register" commandName="newUser">
                 <label for="login">Login:</label>

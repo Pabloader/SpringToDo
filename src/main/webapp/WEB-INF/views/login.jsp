@@ -16,23 +16,23 @@
         <title>Логин в тудушках</title>
     </head>
     <body>
-        <div class="register-block">
+        <div class="page-block">
             <h1>Наши милые тудушки!</h1>
             <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
                 <table>
                     <tr>
-                        <td>User:</td>
+                        <td>Имя пользователя:</td>
                         <td><input type='text' name='j_username' value=''>
                         </td>
                     </tr>
                     <tr>
-                        <td>Password:</td>
+                        <td>Пароль:</td>
                         <td><input type='password' name='j_password' />
                         </td>
                     </tr>
                     <tr>
                         <td colspan='2'><input name="submit" type="submit"
-                                               value="submit" />
+                                               value="Войти" />
                         </td>
                     </tr>
                 </table>

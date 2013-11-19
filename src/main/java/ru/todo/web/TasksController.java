@@ -1,12 +1,7 @@
 package ru.todo.web;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import ru.todo.dao.TodoTasksDAO;
 import ru.todo.dao.TodoUsersDAO;
@@ -54,7 +48,7 @@ public class TasksController {
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             ui.addAttribute("task", new TodoTask());
-            ui.addAttribute("tasksList", todoTaskDAO.listTasks(0));
+            ui.addAttribute("tasksList", todoTaskDAO.listTasks(0, todoUser));
             return "todolist";
         } else {
             return "error";
@@ -107,6 +101,12 @@ public class TasksController {
         todoTaskDAO.addTask(task);
 
         return "redirect:/todolist";
+    }
+
+    @RequestMapping(value = "/delete")
+    public String deleteTask() {
+        //TODO каким-либо образом удаление задачи ыыы
+        return "todolist";
     }
 
     @InitBinder

@@ -16,6 +16,7 @@
         <title>Todo list!</title>
     </head>
     <body>
+
         Здесь типа форма создания новой задачи
         <div class="page-block">
             <form:form id="addTaskForm" method="POST" action="add" commandName="task">
@@ -24,15 +25,15 @@
                         <th colspan="2">New task creator!</th>
                     </tr>
                     <tr>
-                        <td>Task Title:</td>
+                        <td>Заголовок задачи:</td>
                         <td rowspan="7">
-                            <form:textarea rows="10" cols="15" path="content"/>
+                            <form:textarea rows="15" cols="25" path="content"/>
                         </td>
                     </tr>
                     <tr>
                         <td><form:input path="title"/></td>
                     </tr>
-                    <td>TargetDate:</td>
+                    <td>Дата выполнения:</td>
                     </tr>
                     <tr>
                         <td>
@@ -41,19 +42,19 @@
                     </tr>
                     <tr>
                         <td>
-                            Accessibility
+                            Тип доступа:
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <form:radiobutton path="pubStatus" value="0" checked="true"/> <!-- notPublic -->
-                            <form:radiobutton path="pubStatus" value="1"/> <!-- publicReadable -->
-                            <form:radiobutton path="pubStatus" value="2"/> <!-- publicEditable -->
+                            <form:radiobutton path="pubStatus" value="0" checked="true"/> Приватная<br/><!-- notPublic -->
+                            <form:radiobutton path="pubStatus" value="1"/> Публично читаемая<br/> <!-- publicReadable -->
+                            <form:radiobutton path="pubStatus" value="2"/> Публично редактируемая<br/> <!-- publicEditable -->
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Priority: <form:input path="priority"/>
+                            Приоритет: <form:input path="priority"/>
                         </td>
                     </tr>
                     <tr>
@@ -65,8 +66,10 @@
 
         <br/><br/><br/>
         Здесь типа список доступных задач
-        <c:forEach items="${tasksList}" var="task">
+        <c:forEach items="${tasksList}" var="task" varStatus="i">
             <div class="page-block">
+                ${i.count}
+                Task ID:${task.id}
                 <table class="task-table">
                     <tr>
                         <th colspan="2">${task.title}</th>

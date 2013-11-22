@@ -7,5 +7,6 @@
     <session-factory>
         <mapping class="ru.todo.model.TodoTask" />
         <mapping class="ru.todo.model.TodoUser" />
+        <mapping class="ru.todo.model.TodoList" />
     </session-factory>
 </hibernate-configuration>

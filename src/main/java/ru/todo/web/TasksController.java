@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import ru.todo.dao.TodoListsDAO;
 import ru.todo.dao.TodoTasksDAO;
 import ru.todo.dao.TodoUsersDAO;
 import ru.todo.model.TodoTask;
@@ -32,6 +33,8 @@ public class TasksController {
     private TodoTasksDAO todoTaskDAO;
     @Autowired
     private TodoUsersDAO todoUsersDAO;
+    @Autowired
+    private TodoListsDAO todoListsDAO;
 
     // Основной редирект на главную страницу
     @RequestMapping("/")
@@ -44,15 +47,14 @@ public class TasksController {
     public String listTasks(Model ui, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-            User user = (User)authentication.getPrincipal();
+            User user = (User) authentication.getPrincipal();
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             ui.addAttribute("task", new TodoTask());
-            ui.addAttribute("tasksList", todoTaskDAO.listTasks(0, todoUser));
+            ui.addAttribute("tasksList", todoUser.getLists());
             return "todolist";
-        } else {
+        } else
             return "error";
-        }
 
     }
 

@@ -18,7 +18,7 @@ import ru.todo.model.TodoUser;
 @Repository
 @Transactional
 public class TodoUsersDAOImpl implements TodoUsersDAO {
-
+    
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -28,22 +28,21 @@ public class TodoUsersDAOImpl implements TodoUsersDAO {
     @Override
     public int addUser(TodoUser user) {
         int userID = -1;
-        if (null == sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByLogin")
-                .setParameter("name", user.getLogin()).uniqueResult()) {
+        if (findUserByLogin(user.getLogin()) == null) {
             sessionFactory.getCurrentSession().save(user);
             userID = user.getId();
         } else
             System.out.println("User with this name already exists");
         return userID;
     }
-
+    
     @Override
     public TodoUser findUserById(int id) {
-        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByID").setParameter("user_id", id).uniqueResult();
+        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.findById").setParameter("id", id).uniqueResult();
     }
-
+    
     @Override
     public TodoUser findUserByLogin(String username) {
-        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.GetUserByLogin").setParameter("name", username).uniqueResult();
+        return (TodoUser) sessionFactory.getCurrentSession().getNamedQuery("TodoUser.findByLogin").setParameter("login", username).uniqueResult();
     }
 }

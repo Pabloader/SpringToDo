@@ -28,19 +28,21 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TodoList.findAll", query = "SELECT t FROM TodoList t"),
     @NamedQuery(name = "TodoList.findById", query = "SELECT t FROM TodoList t WHERE t.id = :id"),
-    @NamedQuery(name = "TodoList.findByAuthorId", query = "SELECT t FROM TodoList t WHERE t.authorId = :authorId"),
     @NamedQuery(name = "TodoList.findByTitle", query = "SELECT t FROM TodoList t WHERE t.title = :title"),
     @NamedQuery(name = "TodoList.findByPubStatus", query = "SELECT t FROM TodoList t WHERE t.pubStatus = :pubStatus")})
 public class TodoList implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    public static final int STATUS_PRIVATE = 0;
+    public static final int STATUS_PUBLIC_READ = 1;
+    public static final int STATUS_PUBLIC_EDIT = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private TodoUser author;
 
@@ -51,7 +53,7 @@ public class TodoList implements Serializable {
 
     @NotNull
     @Column(name = "pub_status")
-    private int pubStatus;
+    private int pubStatus = STATUS_PRIVATE;
 
     public TodoList() {
     }

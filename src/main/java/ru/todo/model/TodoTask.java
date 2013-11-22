@@ -32,11 +32,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TodoTask.findAll", query = "SELECT t FROM TodoTask t"),
     @NamedQuery(name = "TodoTask.findById", query = "SELECT t FROM TodoTask t WHERE t.id = :id"),
-    @NamedQuery(name = "TodoTask.findByAuthorId", query = "SELECT t FROM TodoTask t WHERE t.authorId = :authorId"),
-    @NamedQuery(name = "TodoTask.findByListId", query = "SELECT t FROM TodoTask t WHERE t.listId = :listId"),
     @NamedQuery(name = "TodoTask.findByTitle", query = "SELECT t FROM TodoTask t WHERE t.title = :title"),
-    @NamedQuery(name = "TodoTask.findByCreationTime", query = "SELECT t FROM TodoTask t WHERE t.creationTime = :creationTime"),
-    @NamedQuery(name = "TodoTask.findByTargetTime", query = "SELECT t FROM TodoTask t WHERE t.targetTime = :targetTime"),
     @NamedQuery(name = "TodoTask.findByCompleted", query = "SELECT t FROM TodoTask t WHERE t.completed = :completed"),
     @NamedQuery(name = "TodoTask.findByPriority", query = "SELECT t FROM TodoTask t WHERE t.priority = :priority")})
 public class TodoTask implements Serializable {
@@ -48,11 +44,12 @@ public class TodoTask implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private TodoUser author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "list_id")
     private TodoList list;
 
@@ -70,7 +67,7 @@ public class TodoTask implements Serializable {
     @NotNull
     @Column(name = "creation_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date creationTime;
+    private Date creationTime = new Date();
 
     @NotNull
     @Column(name = "target_time")
@@ -79,11 +76,10 @@ public class TodoTask implements Serializable {
 
     @NotNull
     @Column(name = "completed")
-    private boolean completed;
+    private boolean completed = false;
 
-    @NotNull
     @Column(name = "priority")
-    private int priority;
+    private int priority = 0;
 
     public TodoTask() {
     }

@@ -24,12 +24,13 @@ public class TodoTasksDAOImpl implements TodoTasksDAO {
     }
 
     @Override
-    public List<TodoTask> listTasks(int access, TodoUser user) {
+    public List<TodoTask> listTasks(TodoUser user) {
         return sessionFactory.getCurrentSession().createQuery("from TodoTask "
                 + "where author_id = :userID "
                 + "order by priority desc creationDate asc")
                 .setParameter("userID", user.getId()).list();
     }
+   
 
     @Override
     public void deleteTask(TodoTask task) {

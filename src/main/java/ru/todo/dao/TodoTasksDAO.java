@@ -18,6 +18,6 @@ public interface TodoTasksDAO {
 
     public void addTask(TodoTask task);
     public void deleteTask(TodoTask task);
-    public List<TodoTask> listTasks(int access, TodoUser user);
+    public List<TodoTask> listTasks(TodoUser user);
 
 }

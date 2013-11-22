@@ -53,12 +53,12 @@ public class TodoUser implements Serializable {
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "role")
-    private String role;
+    private String role = "ROLE_USER";
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author")
     private List<TodoTask> tasks;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author")
     private List<TodoList> lists;
 
     public TodoUser() {
@@ -107,11 +107,27 @@ public class TodoUser implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-    //</editor-fold>
 
+    public List<TodoTask> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TodoTask> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<TodoList> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<TodoList> lists) {
+        this.lists = lists;
+    }
+
+    //</editor-fold>
     @Override
     public String toString() {
-        return "ru.todo.model.TodoUser[ id=" + id + " ]";
+        return "TodoUser{" + "id=" + id + ", login=" + login + ", role=" + role + '}';
     }
 
 }

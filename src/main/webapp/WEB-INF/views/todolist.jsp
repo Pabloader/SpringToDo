@@ -26,30 +26,25 @@
                     </tr>
                     <tr>
                         <td>Заголовок задачи:</td>
-                        <td rowspan="7">
+                        <td rowspan="9">
                             <form:textarea rows="15" cols="25" path="content"/>
                         </td>
                     </tr>
                     <tr>
                         <td><form:input path="title"/></td>
                     </tr>
+                    <td>Принадлежит списку:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input disabled="true"/>
+                        </td>
+                    </tr>
                     <td>Дата выполнения:</td>
                     </tr>
                     <tr>
                         <td>
                             <form:input path="targetTime"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Тип доступа:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form:radiobutton path="pubStatus" value="0" checked="true"/> Приватная<br/><!-- notPublic -->
-                            <form:radiobutton path="pubStatus" value="1"/> Публично читаемая<br/> <!-- publicReadable -->
-                            <form:radiobutton path="pubStatus" value="2"/> Публично редактируемая<br/> <!-- publicEditable -->
                         </td>
                     </tr>
                     <tr>
@@ -66,32 +61,25 @@
 
         <br/><br/><br/>
         Здесь типа список доступных задач
-        <c:forEach items="${tasksList}" var="task" varStatus="i">
+        <c:forEach items="${tasksList}" var="list" varStatus="i">
             <div class="page-block">
                 ${i.count}
-                Task ID:${task.id}
+                Task ID:${list.id}
                 <table class="task-table">
                     <tr>
-                        <th colspan="2">${task.title}</th>
+                        <th colspan="2">${list.title}</th>
                     </tr>
                     <tr>
-                        <td>Автор: <b>${task.author.login}</b></td>
+                        <td>Автор: <b>${list.author.login}</b></td>
+                        <td rowspan="2">Здесь <s>могла быть ваша реклама</s> должен быть список задач, в виде ссылок</td>
                     </tr>
                     <tr>
-                        <td>Дата создания:</td>
-                        <td rowspan="6">${task.content}</td>
+                        <td>
+                            Тип доступа:
+                        </td>
                     </tr>
                     <tr>
-                        <td>${task.creationTime}</td>
-                    </tr>
-                    <tr>
-                        <td>Дата выполнения:</td>
-                    </tr>
-                    <tr>
-                        <td>${task.targetTime}</td>
-                    </tr>
-                    <tr>
-                        <td>Приоритет: ${task.priority}</td>
+                        <td>${list.pubStatus}</td>
                     </tr>
                 </table>
             </div>

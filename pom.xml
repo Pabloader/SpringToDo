@@ -15,12 +15,18 @@
     </properties>
 
     <dependencies>
-        <!-- Зависимость для  -->
+        <!-- Зависимость для jsp-тегов -->
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- Зависимость для хер знает чего -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+	</dependency>
         <!-- зависимость для Javax.persistence -->
         <dependency>
             <groupId>javax.persistence</groupId>

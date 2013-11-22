@@ -48,7 +48,7 @@ input[type="submit"]:active {
     box-shadow: 3px 3px 5px #121212;
     border-radius: 5px;
     border: 1px solid black;
-    width: 400px;
+    width: 600px;
     margin: 10px auto;
     padding: 5px;
     background-color:#fff;
@@ -72,5 +72,7 @@ input[type="submit"]:active {
     background-size: 100% 1.2em;
 }
 textarea {
+    width:95%;
+    margin-left: 10px;
     resize: none;
 }

@@ -7,6 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,7 +18,13 @@
     </head>
     <body>
 
-        Здесь типа форма создания новой задачи
+        <div id="userinfo">
+            <sec:authorize access="isAuthenticated()">
+                Информация о вошедшем юзере
+                <sec:authentication property="principal.username" />
+            </sec:authorize>
+
+        <h1>Здесь типа форма создания новой задачи</h1>
         <div class="page-block">
             <form:form id="addTaskForm" method="POST" action="add" commandName="task">
                 <table>
@@ -60,7 +67,7 @@
         </div>
 
         <br/><br/><br/>
-        Здесь типа список доступных задач
+        <h1>Здесь типа список доступных задач</h1>
         <c:forEach items="${tasksList}" var="list" varStatus="i">
             <div class="page-block">
                 ${i.count}

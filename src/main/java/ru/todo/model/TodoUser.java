@@ -1,49 +1,67 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ru.todo.model;
 
-import java.util.List;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery;
 
 /**
  *
- * @author P@bloid
+ * @author Sunrise
  */
 @Entity
 @Table(name = "todo_users")
 @NamedQueries({
-    @NamedQuery(name="TodoUser.GetUserByID", query="from TodoUser where id = :user_id"),
-    @NamedQuery(name="TodoUser.GetUserByLogin", query="from TodoUser where login = :name")
-})
+    @NamedQuery(name = "TodoUser.findAll", query = "SELECT t FROM TodoUser t"),
+    @NamedQuery(name = "TodoUser.findById", query = "SELECT t FROM TodoUser t WHERE t.id = :id"),
+    @NamedQuery(name = "TodoUser.findByLogin", query = "SELECT t FROM TodoUser t WHERE t.login = :login"),
+    @NamedQuery(name = "TodoUser.findByPassword", query = "SELECT t FROM TodoUser t WHERE t.password = :password"),
+    @NamedQuery(name = "TodoUser.findByRole", query = "SELECT t FROM TodoUser t WHERE t.role = :role")})
 public class TodoUser implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @NotNull
     @Size(min = 1, max = 64)
+    @Column(name = "login")
     private String login;
 
     @NotNull
     @Size(min = 1, max = 64)
+    @Column(name = "password")
     private String password;
 
     @NotNull
-    private String role = "ROLE_USER";
+    @Size(min = 1, max = 45)
+    @Column(name = "role")
+    private String role;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<TodoTask> tasks;
+
+    @OneToMany(mappedBy = "list_id", fetch = FetchType.EAGER)
+    private List<TodoList> lists;
 
     public TodoUser() {
     }
@@ -59,7 +77,7 @@ public class TodoUser implements Serializable {
         this.role = role;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="getters/setters">
+    //<editor-fold defaultstate="collapsed" desc="getset">
     public Integer getId() {
         return id;
     }
@@ -91,20 +109,11 @@ public class TodoUser implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public List<TodoTask> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<TodoTask> tasks) {
-        this.tasks = tasks;
-    }
     //</editor-fold>
 
     @Override
     public String toString() {
-        return "TodoUser{" + "id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + '}';
+        return "ru.todo.model.TodoUser[ id=" + id + " ]";
     }
-
 
 }

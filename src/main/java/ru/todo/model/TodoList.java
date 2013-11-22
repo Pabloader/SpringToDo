@@ -5,7 +5,6 @@
 package ru.todo.model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -66,6 +65,7 @@ public class TodoList implements Serializable {
         this.title = title;
         this.pubStatus = pubStatus;
     }
+//<editor-fold defaultstate="collapsed" desc="getset">
 
     public Integer getId() {
         return id;
@@ -98,30 +98,11 @@ public class TodoList implements Serializable {
     public void setPubStatus(int pubStatus) {
         this.pubStatus = pubStatus;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TodoList)) {
-            return false;
-        }
-        TodoList other = (TodoList) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+//</editor-fold>
 
     @Override
     public String toString() {
-        return "ru.todo.model.TodoList[ id=" + id + " ]";
+        return "TodoList{" + "id=" + id + ", author=" + author + ", title=" + title + ", pubStatus=" + pubStatus + '}';
     }
 
 }

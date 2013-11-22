@@ -6,7 +6,6 @@ package ru.todo.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -179,11 +178,9 @@ public class TodoTask implements Serializable {
     }
 
     //</editor-fold>
-    
     @Override
     public String toString() {
         return "TodoTask{" + "id=" + id + ", author=" + author + ", list=" + list + ", title=" + title + ", content=" + content + ", creationTime=" + creationTime + ", targetTime=" + targetTime + ", completed=" + completed + ", priority=" + priority + '}';
     }
-
 
 }

@@ -6,10 +6,15 @@
 
 package ru.todo.dao;
 
+import java.util.List;
+import ru.todo.model.TodoList;
+
 /**
  *
  * @author P@bloid
  */
 public interface TodoListsDAO {
+
+    public List<TodoList> getPublicLists();
     
 }

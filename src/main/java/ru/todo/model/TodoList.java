@@ -32,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "TodoList.findAll", query = "SELECT t FROM TodoList t"),
     @NamedQuery(name = "TodoList.findById", query = "SELECT t FROM TodoList t WHERE t.id = :id"),
     @NamedQuery(name = "TodoList.findByTitle", query = "SELECT t FROM TodoList t WHERE t.title = :title"),
-    @NamedQuery(name = "TodoList.findByPubStatus", query = "SELECT t FROM TodoList t WHERE t.pubStatus = :pubStatus")})
+    @NamedQuery(name = "TodoList.findByPubStatus", query = "SELECT t FROM TodoList t WHERE t.pubStatus > 0")})
 public class TodoList implements Serializable {
 
     private static final long serialVersionUID = 1L;

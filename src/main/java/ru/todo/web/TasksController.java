@@ -61,7 +61,8 @@ public class TasksController {
 
     //Обрабока фейла
     @RequestMapping("/loginfailed")
-    public String loginFailed() {
+    public String loginFailed(Model ui) {
+        ui.addAttribute("error", true);
         return "login";
     }
 

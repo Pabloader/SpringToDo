@@ -47,14 +47,15 @@ public class TasksController {
     public String listTasks(Model ui, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-            User user = (User) authentication.getPrincipal();
+            User user = (User)authentication.getPrincipal();
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             ui.addAttribute("task", new TodoTask());
             ui.addAttribute("tasksList", todoUser.getLists());
             return "todolist";
-        } else
+        } else {
             return "error";
+        }
 
     }
 

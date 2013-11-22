@@ -56,10 +56,10 @@ public class TodoUser implements Serializable {
     private String role = "ROLE_USER";
 
     @OneToMany(mappedBy = "author")
-    private List<TodoTask> tasks;
+    private transient List<TodoTask> tasks;
 
     @OneToMany(mappedBy = "author")
-    private List<TodoList> lists;
+    private transient List<TodoList> lists;
 
     public TodoUser() {
     }

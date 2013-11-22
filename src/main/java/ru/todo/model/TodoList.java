@@ -58,7 +58,7 @@ public class TodoList implements Serializable {
     private int pubStatus = STATUS_PRIVATE;
 
     @OneToMany(mappedBy = "list")
-    private List<TodoTask> tasks;
+    private transient List<TodoTask> tasks;
 
     public TodoList() {
     }

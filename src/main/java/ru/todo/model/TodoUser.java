@@ -47,11 +47,13 @@ public class TodoUser implements Serializable {
     private String login;
 
     @NotNull
+    @JsonIgnore
     @Size(min = 1, max = 64)
     @Column(name = "password")
     private String password;
 
     @NotNull
+    @JsonIgnore
     @Size(min = 1, max = 45)
     @Column(name = "role")
     private String role = "ROLE_USER";
@@ -128,6 +130,7 @@ public class TodoUser implements Serializable {
     }
 
     //</editor-fold>
+    
     @Override
     public String toString() {
         return "TodoUser{" + "id=" + id + ", login=" + login + ", role=" + role + '}';

@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -57,8 +58,9 @@ public class TodoList implements Serializable {
     @Column(name = "pub_status")
     private int pubStatus = STATUS_PRIVATE;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "list")
-    private transient List<TodoTask> tasks;
+    private List<TodoTask> tasks;
 
     public TodoList() {
     }

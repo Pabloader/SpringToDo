@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -55,11 +56,13 @@ public class TodoUser implements Serializable {
     @Column(name = "role")
     private String role = "ROLE_USER";
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author")
-    private transient List<TodoTask> tasks;
+    private List<TodoTask> tasks;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author")
-    private transient List<TodoList> lists;
+    private List<TodoList> lists;
 
     public TodoUser() {
     }

@@ -27,7 +27,7 @@ import ru.todo.model.TodoUser;
  * @author P@bloid
  */
 @Controller
-public class TasksController {
+public class LoginController {
 
     @Autowired
     private TodoTasksDAO todoTaskDAO;
@@ -36,33 +36,26 @@ public class TasksController {
     @Autowired
     private TodoListsDAO todoListsDAO;
 
-    // Основной редирект на главную страницу
-    @RequestMapping("/")
-    public String home() {
-        return "redirect:/login";
-    }
-
     // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
-    @RequestMapping("/todolist")
-    public String listTasks(Model ui, WebRequest webRequest) {
+    @RequestMapping("/")
+    public String home(Model ui, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-            User user = (User)authentication.getPrincipal();
+            User user = (User) authentication.getPrincipal();
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
+            //TODO КОд ниже надо убрать, перевести на ОЙАКС
             ui.addAttribute("task", new TodoTask());
             ui.addAttribute("tasksList", todoUser.getLists());
             return "todolist";
-        } else {
-            return "error";
-        }
-
+        } else
+            return "redirect:/login";
     }
 
     //Обрабока фейла
     @RequestMapping("/loginfailed")
     public String loginFailed(Model ui) {
-        ui.addAttribute("error", true);
+        ui.addAttribute("error", "invalid.credetials");
         return "login";
     }
 
@@ -74,7 +67,7 @@ public class TasksController {
             User user = (User) authentication.getPrincipal();
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             wr.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
-            return "redirect:/todolist";
+            return "redirect:/";
         }
         return "login";
     }
@@ -87,30 +80,15 @@ public class TasksController {
 
     // Обработка POST-запроса из формы регистрации нового пользователя
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result) {
+    public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result, Model ui) {
 
+        if (todoUsersDAO.findUserByLogin(user.getLogin()) != null) {
+            ui.addAttribute("error", "user.exists");
+            ui.addAttribute("newUser", user);
+            return "register";
+        }
         todoUsersDAO.addUser(user);
-        //TODO Проверка на существование пользователя
-        System.out.println("User: \n ID: " + user.getId() + "\nLogin:"
-                           + user.getLogin() + "\nPassword:" + user.getPassword());
-        return "redirect:/todolist";
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addTask(@ModelAttribute("task") TodoTask task, WebRequest webRequest, Model ui) {
-
-        TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
-        task.setAuthor(todoUser);
-
-        todoTaskDAO.addTask(task);
-
-        return "redirect:/todolist";
-    }
-
-    @RequestMapping(value = "/delete")
-    public String deleteTask() {
-        //TODO каким-либо образом удаление задачи ыыы
-        return "todolist";
+        return "redirect:/";
     }
 
     @InitBinder

@@ -4,10 +4,10 @@
                 http://www.springframework.org/schema/beans/spring-beans.xsd
                 http://www.springframework.org/schema/security
                 http://www.springframework.org/schema/security/spring-security.xsd">
-    
+
     <global-method-security pre-post-annotations="enabled"/>
 
-    <http auto-config="true">
+    <http use-expressions="true" auto-config="true">
         <intercept-url pattern="/index*" access="ROLE_USER" />
         <form-login login-page="/login" default-target-url="/"
                             authentication-failure-url="/loginfailed" />

@@ -4,20 +4,13 @@
  */
 package ru.todo.web;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +47,10 @@ public class APIController {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             List<TodoList> lists = todoUser.getLists();
             lists.addAll(todoListsDAO.getPublicLists());
+            TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
+            List<TodoTask> freeTasks = todoTaskDAO.listFreeTasks();
+            freeList.setTasks(freeTasks);
+            lists.add(freeList);
             return lists;
         }
         return null;

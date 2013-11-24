@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,6 +30,7 @@ import javax.validation.constraints.Size;
 @Table(name = "todo_tasks")
 @NamedQueries({
     @NamedQuery(name = "TodoTask.findAll", query = "SELECT t FROM TodoTask t"),
+    @NamedQuery(name = "TodoTask.findAllFree", query = "SELECT t FROM TodoTask t WHERE t.list IS null"),
     @NamedQuery(name = "TodoTask.findById", query = "SELECT t FROM TodoTask t WHERE t.id = :id"),
     @NamedQuery(name = "TodoTask.findByTitle", query = "SELECT t FROM TodoTask t WHERE t.title = :title"),
     @NamedQuery(name = "TodoTask.findByCompleted", query = "SELECT t FROM TodoTask t WHERE t.completed = :completed"),

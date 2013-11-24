@@ -14,14 +14,13 @@ $(document).ready(function() {
         // Task fields: id author list title content creationTime = new Date(); targetTime completed=false; priority
         $.ajax({
             url: 'api/addTask',
-            contentType: 'application/json',
             type: 'POST',
             data: {
-                'list':null,
-                'title':$taskTitle,
-                'content':$taskContent,
-                'targetTime':$targetDate,
-                'priority':$taskPriority
+                'list': null,
+                'title': $taskTitle,
+                'content': $taskContent,
+                'targetTime': $targetDate,
+                'priority': $taskPriority
             }
         });
     });

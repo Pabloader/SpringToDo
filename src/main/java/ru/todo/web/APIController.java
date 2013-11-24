@@ -5,9 +5,11 @@
 package ru.todo.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,23 +60,35 @@ public class APIController {
     }
 
     @RequestMapping(value = "addTask", method = RequestMethod.POST)
-    public void addTask(@RequestBody TodoTask task, WebRequest webRequest) {
+    public @ResponseBody
+    String addTask(@RequestParam String title, @RequestParam String content, @RequestParam Date targetTime, @RequestParam Integer priority, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
+            TodoTask task = new TodoTask();
+            task.setTitle(title);
+            task.setContent(content);
+            task.setTargetTime(targetTime);
+            task.setPriority(priority);
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             task.setAuthor(todoUser);
             todoTaskDAO.addTask(task);
+            return "success";
         }
+        return "error";
     }
 
     @RequestMapping(value = "deleteTask", method = RequestMethod.GET)
-    public void deleteTask(@RequestParam("id") Integer id, WebRequest webRequest) {
+    public @ResponseBody
+    String deleteTask(@RequestParam("id") Integer id, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             TodoTask task = todoTaskDAO.findTaskById(id);
-            if (task.getAuthor().getId() == user.getId() || "ROLE_ADMIN".equals(user.getRole()))
+            if (task.getAuthor().getId() == user.getId() || "ROLE_ADMIN".equals(user.getRole())) {
                 todoTaskDAO.deleteTask(task);
+                return "success";
+            }
         }
+        return "error";
     }
 }

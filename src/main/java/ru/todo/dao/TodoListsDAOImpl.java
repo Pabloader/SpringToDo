@@ -52,4 +52,9 @@ public class TodoListsDAOImpl implements TodoListsDAO {
             Collections.sort(list.getTasks(), priorityComparator);
         return lists;
     }
+
+    @Override
+    public TodoList findListById(int id) {
+        return (TodoList) sessionFactory.getCurrentSession().getNamedQuery("TodoList.findById").setParameter("id", id).uniqueResult();
+    }
 }

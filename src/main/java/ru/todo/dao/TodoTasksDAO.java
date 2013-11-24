@@ -8,7 +8,6 @@ package ru.todo.dao;
 
 import java.util.List;
 import ru.todo.model.TodoTask;
-import ru.todo.model.TodoUser;
 
 /**
  *
@@ -18,7 +17,6 @@ public interface TodoTasksDAO {
 
     public void addTask(TodoTask task);
     public void deleteTask(TodoTask task);
-    public List<TodoTask> listTasks(TodoUser user);
     public List<TodoTask> listFreeTasks();
     public TodoTask findTaskById(int id);
 

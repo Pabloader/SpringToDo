@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.todo.model.TodoTask;
-import ru.todo.model.TodoUser;
 
 /**
  *
@@ -21,14 +20,6 @@ public class TodoTasksDAOImpl implements TodoTasksDAO {
     @Override
     public void addTask(TodoTask task) {
         sessionFactory.getCurrentSession().save(task);
-    }
-
-    @Override
-    public List<TodoTask> listTasks(TodoUser user) {
-        return sessionFactory.getCurrentSession().createQuery("from TodoTask "
-                                                              + "where author_id = :userID "
-                                                              + "order by priority desc creationDate asc")
-                .setParameter("userID", user.getId()).list();
     }
 
     @Override

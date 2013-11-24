@@ -18,5 +18,6 @@ public interface TodoListsDAO {
 
     public List<TodoList> getPublicLists(TodoUser currentUser);
     public List<TodoList> getListsWithPublic(TodoUser user);
+    public TodoList findListById(int id);
     
 }

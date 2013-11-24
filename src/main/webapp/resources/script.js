@@ -1,9 +1,17 @@
 // Функция jQuery, которая собирает данные из формы и посылает их аяксом на сервер
 $(document).ready(function() {
+    $('.delete-task-button').click(function() {
+        var $taskID = $(this).data("id");
+        $.ajax({
+            url:'api/deleteTask',
+            type:'GET',
+            data: {'id':$taskID},
+            success: function() {
+                alert("Может быть ваша задача была удалена. А может и нет...");
+            }
+        });
+    });
     $('#add-task-button').click(function() {
-        // Ругаемся громко и задорно
-        alert('ЛОЛ ЗАДАЧА-ТО НИХЕРА НЕ ОТПРАВЛЯЕТСЯ!!!');
-
         // Получаем значения из полей
         var $taskTitle = $('#task-title').val();
         var $taskParentList = $('#task-parent').val();
@@ -21,6 +29,9 @@ $(document).ready(function() {
                 'content': $taskContent,
                 'targetTime': $targetDate,
                 'priority': $taskPriority
+            },
+            success: function(data) {
+                alert("Задача добавлена! Может быть...");
             }
         });
     });

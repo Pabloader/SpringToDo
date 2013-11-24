@@ -13,13 +13,13 @@
         <div class="page-block register-block">
             <h1>Форма регистрации</h1>
             <form:form id="registerForm" method="POST" action="register" commandName="newUser">
-                <label for="login">Login:</label>
+                <label for="login">Как ВасЪ величать:</label>
                 <form:input id="login" path="login" />
-                <label for="password">Password:</label>
+                <label for="password">Извольте указать кодовое слово:</label>
                 <form:input id="password" path="password" />
-                <input type="submit" class="agree-button" name="register-submit" value="Зарегистрироваться"/>
+                <input type="submit" class="agree-button" name="register-submit" value="Отправить в реестрЪ"/>
                 <a href="${pageContext.servletContext.contextPath}/login">
-                    <input type="button" id="registerRedirect" class="link-button" value="Авторизация" />
+                    <input type="button" id="registerRedirect" class="link-button" value="Проверить слова указанные" />
                 </a>
             </form:form>
         </div>

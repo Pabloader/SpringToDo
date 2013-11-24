@@ -60,6 +60,18 @@ input[type="button"]:active{
 .link-button {
     background: linear-gradient(to bottom, #1388ef 1%,#3690f0 23%,#54a3ee 78%,#6db3f2 100%);
 }
+.delete-task-button {
+    background-color: white;
+    outline: none;
+    display: inline-block;
+    border-radius: 50%;
+    width:30px;
+    height:30px;
+    position: absolute;
+    right: 10px;
+    top:10px;
+    background-image: url('/sprites.jpg');
+}
 .page-block {
     box-shadow: 3px 3px 5px #333;
     border-radius: 5px;
@@ -76,6 +88,7 @@ input[type="button"]:active{
     width: 350px;
 }
 .task-block {
+    position: relative;
     width: 400px;
 }
 .add-task-block {
@@ -96,6 +109,9 @@ input[type="button"]:active{
     width:100%;
 }
 textarea {
+    border-radius: 5px;
+    border: 1px solid gray;
+    box-shadow:inset 1px 1px 2px rgba(0,0,0,0.5);
     width:95%;
     margin-left: 10px;
     resize: none;

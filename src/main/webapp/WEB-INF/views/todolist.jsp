@@ -17,7 +17,7 @@
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js">
         </script>
-        <script type="text/javascript" src="<c:url value="/resources/script.js" />" >
+        <script type="text/javascript" src="<c:url value="/resources/script.js"/>" >
         </script>
         <title>Todo list!</title>
     </head>
@@ -31,49 +31,7 @@
         </div>
 
         <div class="page-block add-task-block">
-            <h1>Форма создания новой задачи (JSP)</h1>
-            <form:form id="addTaskForm" method="POST" action="add" commandName="task">
-                <table>
-                    <tr>
-                        <th colspan="2">
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>Заголовок задачи:</td>
-                        <td rowspan="9">
-                            <form:textarea rows="15" cols="25" path="content"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:input path="title"/></td>
-                    </tr>
-                    <td>Принадлежит списку:</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input disabled="true"/>
-                        </td>
-                    </tr>
-                    <td>Дата выполнения:</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form:input path="targetTime"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Приоритет: <form:input path="priority"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input class="agree-button" type="submit"/></td>
-                    </tr>
-                </table>
-            </form:form>
-        </div>
-
-        <div class="page-block add-task-block"><h1>Форма создания новой задачи (jQuery)</h1>
+            <h1>Форма создания новой задачи (jQuery)</h1>
             <form id="task-add-form" method="POST" action="api/addTask">
                 <div class="half-width-form">
                     <label for="task-title">Заголовок задачи</label>
@@ -87,34 +45,33 @@
                 </div>
                 <div class="half-width-form">
                     <label for="task-content">Содержание задачи:</label>
-                    <textarea id="task-content" rows="13" cols="25" id="task-content" value="task-content" >ЖОПА</textarea>
+                    <textarea id="task-content" rows="12" cols="25" id="task-content" value="task-content" placeholder="Содержание задачи..."></textarea>
                 </div>
                 <input type="button" class="agree-button" id="add-task-button" name="add-task-button" value="Сохранить задачу" />
+            </form>
         </div>
 
-        <br/><br/><br/>
-        <h1>Здесь типа список доступных задач</h1>
-        <c:forEach items="${tasksList}" var="list" varStatus="i">
-            <div class="page-block task-block">
-                ${i.count}
-                Task ID:${list.id}
-                <table class="task-table">
-                    <tr>
-                        <th colspan="2">${list.title}</th>
-                    </tr>
-                    <tr>
-                        <td>Автор: <b>${list.author.login}</b></td>
-                        <td rowspan="2">Здесь <s>могла быть ваша реклама</s> должен быть список задач, в виде ссылок</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Тип доступа:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>${list.pubStatus}</td>
-                    </tr>
-                </table>
+        <!-- Списки задач, в каждом списке - по пиписке -->
+        <h1>Здесь типа список списков, а внутри - списки доступных задач</h1>
+        <c:forEach items="${lists}" var="list" >
+            <div class="task-list-div">
+                ${list.title}
+                <c:forEach items="${list.tasks}" var="task">
+                    <div class="page-block task-block">
+                        <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
+                            <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
+                        </button>
+                        <!-- Сверстать не по-мудацццки -->
+                        Task ID:${task.id}<br/>
+                        ${task.title}<br/>
+                        Автор: ${task.author.login}<br/>
+                        Дата создания: ${task.creationTime}<br/>
+                        Дата выполнения: ${task.targetTime}<br/>
+                        Коньтент: ${task.content}<br/>
+                        Выполнено: ${task.completed}<br/>
+                        Приоритет: ${task.priority}
+                    </div>
+                </c:forEach>
             </div>
         </c:forEach>
     </body>

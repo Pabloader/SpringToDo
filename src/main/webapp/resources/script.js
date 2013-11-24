@@ -1,5 +1,12 @@
 // Функция jQuery, которая собирает данные из формы и посылает их аяксом на сервер
 $(document).ready(function() {
+    // Установка календаря jQuery UI для поля ввода даты
+    $('#task-target-date').datepicker({dateFormat:'dd.mm.yy',showButtonPanel:true, showOtherMonths:true, selectOtherMonths:true});
+    // Обработчик класса content-wrapper
+    $('.task-list-div>h1').click(function () {
+        $(this).siblings('.content-wrapper').slideToggle(600);
+    });
+    // Обработчик по кнопке удаления задачи
     $('.delete-task-button').click(function() {
         var $taskID = $(this).data("id");
         $.ajax({
@@ -10,18 +17,17 @@ $(document).ready(function() {
             },
             success: function() {
                 alert("Может быть ваша задача была удалена. А может и нет...");
+                $(this).parent().empty();
             }
         });
     });
+    // Обработчик на кнопку добавления задач
     $('#add-task-button').click(function() {
-        // Получаем значения из полей
         var $taskTitle = $('#task-title').val();
         var $taskParentList = $('#task-parent').val();
         var $targetDate = $('#task-target-date').val();
         var $taskPriority = $('#task-priority').val();
         var $taskContent = $('#task-content').val();
-
-        // Task fields: id author list title content creationTime = new Date(); targetTime completed=false; priority
         $.ajax({
             url: 'api/addTask',
             type: 'POST',

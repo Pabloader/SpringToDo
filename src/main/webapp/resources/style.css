@@ -3,13 +3,14 @@ body{
     font-family: "Tahoma";
     background-color: #6d695c;
     background-image:
-    repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-    repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
-    linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)),
-    linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
+        repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
+        repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px),
+        linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)),
+        linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
     background-size: 70px 120px;
 }
 h1 {
+    margin: 3px 0;
     font-size: 18px;
     text-align: center;
 }
@@ -17,6 +18,14 @@ label {
     margin-top:10px;
     margin-bottom:4px;
     display:block;
+}
+textarea {
+    border-radius: 5px;
+    border: 1px solid gray;
+    box-shadow:inset 1px 1px 2px rgba(0,0,0,0.5);
+    width:95%;
+    margin-left: 10px;
+    resize: none;
 }
 input[type="password"],
 input[type="text"],
@@ -71,8 +80,7 @@ input[type="button"]:active{
     height:30px;
     position: absolute;
     right: 10px;
-    top:10px;
-    background-image: url('/sprites.jpg');
+    top: 5px;
 }
 .page-block {
     box-shadow: 3px 3px 5px #333;
@@ -82,39 +90,47 @@ input[type="button"]:active{
     padding: 5px;
     background-color:#fff;
     background-image:
-    linear-gradient(270deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-    linear-gradient(#eee .1em, transparent .1em);
+        linear-gradient(270deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+        linear-gradient(#eee .1em, transparent .1em);
     background-size: 100% 1.2em;
 }
 .register-block {
     width: 350px;
 }
 .task-block {
+    display: inline-block;
     position: relative;
-    width: 400px;
+    width: 32%;
 }
 .add-task-block {
     width:600px;
     border-radius: 5px;
     background-color: #fff;
     background-image:
-    linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-    linear-gradient(#eee .1em, transparent .1em);
+        linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+        linear-gradient(#eee .1em, transparent .1em);
     background-size: 100% 1.2em;
 }
-.half-width-form {
+.width64-form-block {
     vertical-align: top;
     display: inline-block;
-    width: 49%;
+    width: 64%;
 }
-.page-block table {
-    width:100%;
+.width34-form-block {
+    vertical-align: top;
+    display: inline-block;
+    width: 34%;
 }
-textarea {
+.task-list-div {
     border-radius: 5px;
-    border: 1px solid gray;
-    box-shadow:inset 1px 1px 2px rgba(0,0,0,0.5);
-    width:95%;
-    margin-left: 10px;
-    resize: none;
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-color: gray;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 2%;
+}
+
+.content-wrapper {
+    display:none;
 }

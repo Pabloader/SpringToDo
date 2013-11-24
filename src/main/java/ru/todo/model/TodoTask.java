@@ -88,15 +88,13 @@ public class TodoTask implements Serializable {
         this.id = id;
     }
 
-    public TodoTask(Integer id, TodoUser author, TodoList list, String title, String content, Date creationTime, Date targetTime, boolean completed, int priority) {
+    public TodoTask(Integer id, TodoUser author, TodoList list, String title, String content, Date targetTime, int priority) {
         this.id = id;
         this.author = author;
         this.list = list;
         this.title = title;
         this.content = content;
-        this.creationTime = creationTime;
         this.targetTime = targetTime;
-        this.completed = completed;
         this.priority = priority;
     }
 

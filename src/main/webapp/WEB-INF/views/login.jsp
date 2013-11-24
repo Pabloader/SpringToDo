@@ -16,29 +16,19 @@
         <title>Логин в тудушках</title>
     </head>
     <body>
-        <div class="page-block">
+        <div class="page-block register-block">
             <h1>Наши милые тудушки!</h1>
             <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
-                <table>
-                    <tr>
-                        <td>Имя пользователя:</td>
-                        <td><input type='text' name='j_username' value=''>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Пароль:</td>
-                        <td><input type='password' name='j_password' />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan='2'><input name="submit" type="submit"
-                                               value="Войти" />
-                        </td>
-                    </tr>
-                </table>
-
+                <label for="login-field">Имя пользователя</label>
+                <input type='text' name='j_username' value=''>
+                <label for="password-field">Пароль</label>
+                <input type='password' name='j_password' />
+                <input class="agree-button" name="submit" type="submit"
+                       value="Авторизоваться" />
+                <a href="<c:url value="/register"/>">
+                    <input type="button" id="registerRedirect" class="link-button" value="Регистрация" />
+                </a>
             </form>
         </div>
-        <a href="<c:url value="/register"/>">Регистрация</a>
     </body>
 </html>

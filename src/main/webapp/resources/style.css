@@ -19,7 +19,8 @@ label {
     display:block;
 }
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+select {
     box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     width: 100%;
@@ -30,7 +31,8 @@ input[type="text"] {
     box-sizing:border-box
 }
 input[type="text"]:focus,
-input[type="password"]:focus{
+input[type="password"]:focus
+select:focus {
     box-shadow:0 0 3px 2px rgba(250, 225, 120, 0.5);
     outline:none;
 }

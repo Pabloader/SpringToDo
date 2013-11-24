@@ -26,7 +26,8 @@
         <div id="userinfo">
             <sec:authorize access="isAuthenticated()">
                 Информация о вошедшем юзере
-                <sec:authentication property="principal.username" />
+                <b><sec:authentication property="principal.username" /></b><br/>
+                <a href="<c:url value="j_spring_security_logout" />"> ВЫЙТЕ!!!11</a>
             </sec:authorize>
         </div>
 
@@ -37,7 +38,13 @@
                     <label for="task-title">Заголовок задачи</label>
                     <input type="text" id="task-title" placeholder="Заголовок..."/>
                     <label for="task-parent">Включить в список:</label>
-                    <input disabled type="text" id="task-parent"/>
+                    <select id="task-parent">
+                        <c:forEach items="${lists}" var="list">
+                            <c:if test="${(list.author.id == author.id)||(list.pubStatus == 2)}">
+                                <option value="${list.id}">${list.title}</option>
+                            </c:if>
+                        </c:forEach>    
+                    </select>
                     <label for="task-title">Дата выполнения:</label>
                     <input type="text" id="task-target-date" placeholder="Введите дату..."/>
                     <label for="task-title">Приоритет:</label>
@@ -53,26 +60,30 @@
 
         <!-- Списки задач, в каждом списке - по пиписке -->
         <h1>Здесь типа список списков, а внутри - списки доступных задач</h1>
-        <c:forEach items="${lists}" var="list" >
-            <div class="task-list-div">
-                ${list.title}
-                <c:forEach items="${list.tasks}" var="task">
-                    <div class="page-block task-block">
-                        <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
-                            <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
-                        </button>
-                        <!-- Сверстать не по-мудацццки -->
-                        Task ID:${task.id}<br/>
-                        ${task.title}<br/>
-                        Автор: ${task.author.login}<br/>
-                        Дата создания: ${task.creationTime}<br/>
-                        Дата выполнения: ${task.targetTime}<br/>
-                        Коньтент: ${task.content}<br/>
-                        Выполнено: ${task.completed}<br/>
-                        Приоритет: ${task.priority}
-                    </div>
-                </c:forEach>
-            </div>
+        <c:forEach items="${lists}" var="list">
+            <c:if test="${!empty list.tasks}" >
+                <div class="task-list-div">
+                    ${list.title}
+                    <c:forEach items="${list.tasks}" var="task">
+                        <div class="page-block task-block">
+                            <c:if test="${author.id == task.author.id}">
+                                <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
+                                    <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
+                                </button>
+                            </c:if>
+                            <!-- Сверстать не по-мудацццки -->
+                            Task ID:${task.id}<br/>
+                            ${task.title}<br/>
+                            Автор: ${task.author.login}<br/>
+                            Дата создания: ${task.creationTime}<br/>
+                            Дата выполнения: ${task.targetTime}<br/>
+                            Коньтент: ${task.content}<br/>
+                            Выполнено: ${task.completed}<br/>
+                            Приоритет: ${task.priority}
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
         </c:forEach>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package ru.todo.dao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +25,15 @@ public class TodoListsDAOImpl implements TodoListsDAO {
     private TodoTasksDAO todoTasksDAO;
 
     @Override
-    public List<TodoList> getPublicLists() {
-        List<TodoList> lists = sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").list();
-
+    public List<TodoList> getPublicLists(TodoUser currentUser) {
+        List<TodoList> lists = sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").setParameter("author_id", currentUser.getId()).list();
         TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
         List<TodoTask> freeTasks = todoTasksDAO.listFreeTasks();
-        freeList.setTasks(freeTasks);
+        List<TodoTask> tasks = new ArrayList<TodoTask>();
+        for (TodoTask task : freeTasks)
+            if (task.getAuthor().getId() == currentUser.getId())
+                tasks.add(task);
+        freeList.setTasks(tasks);
         lists.add(freeList);
         return lists;
     }
@@ -37,11 +41,11 @@ public class TodoListsDAOImpl implements TodoListsDAO {
     @Override
     public List<TodoList> getListsWithPublic(TodoUser user) {
         List<TodoList> lists = user.getLists();
-        lists.addAll(this.getPublicLists());
+        lists.addAll(this.getPublicLists(user));
         Comparator<TodoTask> priorityComparator = new Comparator<TodoTask>() {
             @Override
             public int compare(TodoTask t, TodoTask t1) {
-                return t.getPriority() - t1.getPriority();
+                return t1.getPriority() - t.getPriority();
             }
         };
         for (TodoList list : lists)

@@ -37,6 +37,7 @@ public class TodoController {
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             ui.addAttribute("lists", todoListsDAO.getListsWithPublic(todoUser));
+            ui.addAttribute("author", todoUser);
             return "todolist";
         } else
             return "redirect:/login";

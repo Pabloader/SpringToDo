@@ -8,10 +8,9 @@
     <global-method-security pre-post-annotations="enabled"/>
 
     <http use-expressions="true" auto-config="true">
-        <intercept-url pattern="/index*" access="ROLE_USER" />
         <form-login login-page="/login" default-target-url="/"
                             authentication-failure-url="/loginfailed" />
-        <logout logout-success-url="/logout" />
+        <logout logout-success-url="/" />
     </http>
 
     <authentication-manager>

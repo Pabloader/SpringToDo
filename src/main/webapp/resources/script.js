@@ -3,9 +3,11 @@ $(document).ready(function() {
     $('.delete-task-button').click(function() {
         var $taskID = $(this).data("id");
         $.ajax({
-            url:'api/deleteTask',
-            type:'GET',
-            data: {'id':$taskID},
+            url: 'api/deleteTask',
+            type: 'GET',
+            data: {
+                'id': $taskID
+            },
             success: function() {
                 alert("Может быть ваша задача была удалена. А может и нет...");
             }
@@ -24,7 +26,7 @@ $(document).ready(function() {
             url: 'api/addTask',
             type: 'POST',
             data: {
-                'list': null,
+                'list': $taskParentList,
                 'title': $taskTitle,
                 'content': $taskContent,
                 'targetTime': $targetDate,

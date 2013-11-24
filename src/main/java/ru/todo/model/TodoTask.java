@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
 @Table(name = "todo_tasks")
 @NamedQueries({
     @NamedQuery(name = "TodoTask.findAll", query = "SELECT t FROM TodoTask t"),
-    @NamedQuery(name = "TodoTask.findAllFree", query = "SELECT t FROM TodoTask t WHERE t.list IS null"),
+    @NamedQuery(name = "TodoTask.findAllFree", query = "SELECT t FROM TodoTask t WHERE t.list IS null OR t.list.id = 0"),
     @NamedQuery(name = "TodoTask.findById", query = "SELECT t FROM TodoTask t WHERE t.id = :id"),
     @NamedQuery(name = "TodoTask.findByTitle", query = "SELECT t FROM TodoTask t WHERE t.title = :title"),
     @NamedQuery(name = "TodoTask.findByCompleted", query = "SELECT t FROM TodoTask t WHERE t.completed = :completed"),

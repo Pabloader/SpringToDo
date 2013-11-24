@@ -19,14 +19,14 @@ public class TodoListsDAOImpl implements TodoListsDAO {
     @Autowired
     private SessionFactory sessionFactory;
     @Autowired
-    private TodoTasksDAO todoTaskDAO;
+    private TodoTasksDAO todoTasksDAO;
 
     @Override
     public List<TodoList> getPublicLists() {
         List<TodoList> lists = sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").list();
 
         TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
-        List<TodoTask> freeTasks = todoTaskDAO.listFreeTasks();
+        List<TodoTask> freeTasks = todoTasksDAO.listFreeTasks();
         freeList.setTasks(freeTasks);
         lists.add(freeList);
         return lists;

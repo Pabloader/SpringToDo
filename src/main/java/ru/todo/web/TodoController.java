@@ -34,9 +34,7 @@ public class TodoController {
             User user = (User) authentication.getPrincipal();
             TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
-            //TODO КОд ниже надо убрать, перевести на ОЙАКС
-            ui.addAttribute("task", new TodoTask());
-            ui.addAttribute("tasksList", todoListsDAO.getListsWithPublic(todoUser));
+            ui.addAttribute("lists", todoListsDAO.getListsWithPublic(todoUser));
             return "todolist";
         } else
             return "redirect:/login";

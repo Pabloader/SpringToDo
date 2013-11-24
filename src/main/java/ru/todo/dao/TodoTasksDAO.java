@@ -19,7 +19,7 @@ public interface TodoTasksDAO {
     public void addTask(TodoTask task);
     public void deleteTask(TodoTask task);
     public List<TodoTask> listTasks(TodoUser user);
-
+    public List<TodoTask> listFreeTasks();
     public TodoTask findTaskById(int id);
 
 }

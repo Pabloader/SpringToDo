@@ -4,20 +4,13 @@
  */
 package ru.todo.web;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +47,10 @@ public class APIController {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             List<TodoList> lists = todoUser.getLists();
             lists.addAll(todoListsDAO.getPublicLists());
+            TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
+            List<TodoTask> freeTasks = todoTaskDAO.listFreeTasks();
+            freeList.setTasks(freeTasks);
+            lists.add(freeList);
             return lists;
         }
         return null;
@@ -61,7 +58,7 @@ public class APIController {
 
     @RequestMapping(value = "addTask", method = RequestMethod.POST)
     public @ResponseBody
-    String addTask(@RequestParam String title, @RequestParam String content, @RequestParam Date targetTime, @RequestParam Integer priority, WebRequest webRequest) {
+    TodoTask addTask(@RequestParam String title, @RequestParam String content, @RequestParam Date targetTime, @RequestParam Integer priority, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoTask task = new TodoTask();
@@ -72,9 +69,9 @@ public class APIController {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             task.setAuthor(todoUser);
             todoTaskDAO.addTask(task);
-            return "success";
+            return task;
         }
-        return "error";
+        return null;
     }
 
     @RequestMapping(value = "deleteTask", method = RequestMethod.GET)

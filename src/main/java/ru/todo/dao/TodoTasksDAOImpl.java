@@ -41,4 +41,9 @@ public class TodoTasksDAOImpl implements TodoTasksDAO {
         return (TodoTask) sessionFactory.getCurrentSession().getNamedQuery("TodoTask.findById").setParameter("id", id).uniqueResult();
     }
 
+    @Override
+    public List<TodoTask> listFreeTasks() {
+        return sessionFactory.getCurrentSession().getNamedQuery("TodoTask.findAllFree").list();
+    }
+
 }

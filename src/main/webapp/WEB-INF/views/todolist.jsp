@@ -61,33 +61,31 @@
 
         <h1>Здесь типа список списков, а внутри - списки доступных задач</h1>
         <c:forEach items="${lists}" var="list">
-            <c:if test="${!empty list.tasks}" >
-                <div class="task-list-div">
-                    <h1>${list.title}</h1>
-                    <div class="content-wrapper">
-                        <c:forEach items="${list.tasks}" var="task">
-                            <div class="page-block task-block">
-                                <h1>${task.title}</h1>
-                                <c:if test="${author.id == task.author.id || (list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
-                                    <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
-                                        <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
-                                    </button>
-                                </c:if>
-                                <div class="width34-form-block">
-                                    Автор: <strong>${task.author.login}</strong><br/>
-                                    Дата создания: <fmt:formatDate pattern="dd.MM.yyyy" value="${task.creationTime}" /><br/>
-                                    Дата выполнения: <fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /><br/>
-                                    ${item.active ? 'Выполнено!' : 'Не выполнено!'}<br/>
-                                    Приоритет: ${task.priority}<br/>
-                                </div>
-                                <div class="width64-form-block">
-                                    ${task.content}
-                                </div>
+            <div class="task-list-div" data-list-id="${list.id}">
+                <h1>${list.title}</h1>
+                <div class="content-wrapper">
+                    <c:forEach items="${list.tasks}" var="task">
+                        <div class="page-block task-block">
+                            <h1>${task.title}</h1>
+                            <c:if test="${author.id == task.author.id || (list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
+                                <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
+                                    <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
+                                </button>
+                            </c:if>
+                            <div class="width34-form-block">
+                                Автор: <strong>${task.author.login}</strong><br/>
+                                Дата создания: <fmt:formatDate pattern="dd.MM.yyyy" value="${task.creationTime}" /><br/>
+                                Дата выполнения: <fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /><br/>
+                                ${task.completed ? 'Выполнено!' : 'Не выполнено!'}<br/>
+                                Приоритет: ${task.priority}<br/>
                             </div>
-                        </c:forEach>
-                    </div>
+                            <div class="width64-form-block">
+                                ${task.content}
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
-            </c:if>
+            </div>
         </c:forEach>
     </body>
 </html>

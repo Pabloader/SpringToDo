@@ -39,10 +39,10 @@ $(document).ready(function() {
                 var $insert = $('<div class="page-block task-block"></div>');
                 $insert.append('<h1>' + data.title + '</h1>');
                 $insert.append('<button data-id="' + data.id + '" class="delete-task-button" name="delete-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/delete-icon.png"/></button>');
-                $insert.append('<div class="width34-form-block">Автор: <strong>' + data.author.login + '</strong><br/>\n\
-                Дата создания:' + $.datepicker.formatDate('dd.mm.yy', new Date(data.creationTime)) + '<br/>\n\
-                Дата выполнения:' + $.datepicker.formatDate('dd.mm.yy', new Date(data.targetTime)) + '<br/>'
-                        + data.completed + '<br/>Приоритет:' + data.priority + '<br/></div>');
+                $insert.append('<div class="width34-form-block">Автор: <strong>' + data.author.login + '</strong><br/>'
+                        + 'Дата создания:' + $.datepicker.formatDate('dd.mm.yy', new Date(data.creationTime)) + '<br/>'
+                        + 'Дата выполнения:' + $.datepicker.formatDate('dd.mm.yy', new Date(data.targetTime)) + '<br/>'
+                        + data.completed ? 'Выполнено!' : 'Не выполнено!' + '<br/>Приоритет:' + data.priority + '<br/></div>');
                 $insert.append('<div class="width64-form-block">' + data.content + '</div>');
                 var $listID = data.list.id;
                 $(".task-list-div[data-list-id=" + $listID + "]>.content-wrapper").prepend($insert);

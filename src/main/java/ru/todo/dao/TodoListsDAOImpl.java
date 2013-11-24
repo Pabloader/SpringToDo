@@ -1,5 +1,7 @@
 package ru.todo.dao;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,14 @@ public class TodoListsDAOImpl implements TodoListsDAO {
     public List<TodoList> getListsWithPublic(TodoUser user) {
         List<TodoList> lists = user.getLists();
         lists.addAll(this.getPublicLists());
+        Comparator<TodoTask> priorityComparator = new Comparator<TodoTask>() {
+            @Override
+            public int compare(TodoTask t, TodoTask t1) {
+                return t.getPriority() - t1.getPriority();
+            }
+        };
+        for (TodoList list : lists)
+            Collections.sort(list.getTasks(), priorityComparator);
         return lists;
     }
 }

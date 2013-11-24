@@ -5,7 +5,6 @@
 package ru.todo.web;
 
 import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
-import ru.todo.dao.TodoListsDAO;
 import ru.todo.dao.TodoTasksDAO;
-import ru.todo.dao.TodoUsersDAO;
-import ru.todo.model.TodoList;
 import ru.todo.model.TodoTask;
 import ru.todo.model.TodoUser;
 
@@ -33,22 +29,6 @@ public class APIController {
 
     @Autowired
     private TodoTasksDAO todoTaskDAO;
-    @Autowired
-    private TodoUsersDAO todoUsersDAO;
-    @Autowired
-    private TodoListsDAO todoListsDAO;
-
-    @RequestMapping(value = "getLists", method = RequestMethod.GET)
-    public @ResponseBody
-    List<TodoList> getLists(WebRequest webRequest) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
-            TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
-            return todoListsDAO.getListsWithPublic(todoUser);
-        }
-        return null;
-    }
 
     @RequestMapping(value = "addTask", method = RequestMethod.POST)
     public @ResponseBody
@@ -70,7 +50,7 @@ public class APIController {
 
     @RequestMapping(value = "deleteTask", method = RequestMethod.GET)
     public @ResponseBody
-    String deleteTask(@RequestParam("id") Integer id, WebRequest webRequest) {
+    String deleteTask(@RequestParam Integer id, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);

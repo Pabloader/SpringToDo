@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import ru.todo.dao.TodoListsDAO;
-import ru.todo.dao.TodoTasksDAO;
 import ru.todo.dao.TodoUsersDAO;
-import ru.todo.model.TodoTask;
 import ru.todo.model.TodoUser;
 
 /**

@@ -8,6 +8,7 @@ package ru.todo.dao;
 
 import java.util.List;
 import ru.todo.model.TodoList;
+import ru.todo.model.TodoUser;
 
 /**
  *
@@ -16,5 +17,6 @@ import ru.todo.model.TodoList;
 public interface TodoListsDAO {
 
     public List<TodoList> getPublicLists();
+    public List<TodoList> getListsWithPublic(TodoUser user);
     
 }

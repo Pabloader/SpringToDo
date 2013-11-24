@@ -46,7 +46,7 @@ public class LoginController {
             webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
             //TODO КОд ниже надо убрать, перевести на ОЙАКС
             ui.addAttribute("task", new TodoTask());
-            ui.addAttribute("tasksList", todoUser.getLists());
+            ui.addAttribute("tasksList", todoListsDAO.getListsWithPublic(todoUser));
             return "todolist";
         } else
             return "redirect:/login";

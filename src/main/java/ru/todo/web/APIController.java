@@ -45,13 +45,7 @@ public class APIController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
-            List<TodoList> lists = todoUser.getLists();
-            lists.addAll(todoListsDAO.getPublicLists());
-            TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
-            List<TodoTask> freeTasks = todoTaskDAO.listFreeTasks();
-            freeList.setTasks(freeTasks);
-            lists.add(freeList);
-            return lists;
+            return todoListsDAO.getListsWithPublic(todoUser);
         }
         return null;
     }

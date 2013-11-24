@@ -58,7 +58,7 @@ public class APIController {
 
     @RequestMapping(value = "addTask", method = RequestMethod.POST)
     public @ResponseBody
-    String addTask(@RequestParam String title, @RequestParam String content, @RequestParam Date targetTime, @RequestParam Integer priority, WebRequest webRequest) {
+    TodoTask addTask(@RequestParam String title, @RequestParam String content, @RequestParam Date targetTime, @RequestParam Integer priority, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoTask task = new TodoTask();
@@ -69,9 +69,9 @@ public class APIController {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             task.setAuthor(todoUser);
             todoTaskDAO.addTask(task);
-            return "success";
+            return task;
         }
-        return "error";
+        return null;
     }
 
     @RequestMapping(value = "deleteTask", method = RequestMethod.GET)

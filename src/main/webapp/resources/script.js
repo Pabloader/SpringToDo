@@ -8,16 +8,16 @@ $(document).ready(function() {
     });
     // Обработчик по кнопке удаления задачи
     $('.delete-task-button').click(function() {
-        var $taskID = $(this).data("id");
+        var $this = $(this);
+        var $taskID = $this.data("id");
         $.ajax({
             url: 'api/deleteTask',
             type: 'GET',
             data: {
                 'id': $taskID
             },
-            success: function() {
-                alert("Может быть ваша задача была удалена. А может и нет...");
-                $(this).parent().empty();
+            success: function() {                
+                $this.parent().hide('fold', 400).remove();
             }
         });
     });

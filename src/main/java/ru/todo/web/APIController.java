@@ -4,7 +4,11 @@
  */
 package ru.todo.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,14 +41,20 @@ public class APIController {
     @RequestMapping(value = "addTask", method = RequestMethod.POST)
     public @ResponseBody
     TodoTask addTask(@RequestParam String title, @RequestParam String content,
-                     @RequestParam Date targetTime, @RequestParam Integer priority,
+                     @RequestParam String targetTime, @RequestParam Integer priority,
                      @RequestParam Integer list, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoTask task = new TodoTask();
             task.setTitle(title);
             task.setContent(content);
-            task.setTargetTime(targetTime);
+            Date target;
+            try {
+                target = new SimpleDateFormat("dd.MM.yyyy").parse(targetTime);
+                task.setTargetTime(target);
+            } catch (ParseException ex) {
+                return null;
+            }
             task.setPriority(priority);
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             task.setAuthor(todoUser);
@@ -63,7 +73,7 @@ public class APIController {
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             TodoTask task = todoTasksDAO.findTaskById(id);
-            if (task.getAuthor().getId() == user.getId() || "ROLE_ADMIN".equals(user.getRole())) {
+            if (task.getAuthor().getId() == user.getId() || task.getList().getPubStatus() == TodoList.STATUS_PUBLIC_EDIT || "ROLE_ADMIN".equals(user.getRole())) {
                 todoTasksDAO.deleteTask(task);
                 return "success";
             }

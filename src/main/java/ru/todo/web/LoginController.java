@@ -30,27 +30,7 @@ import ru.todo.model.TodoUser;
 public class LoginController {
 
     @Autowired
-    private TodoTasksDAO todoTaskDAO;
-    @Autowired
     private TodoUsersDAO todoUsersDAO;
-    @Autowired
-    private TodoListsDAO todoListsDAO;
-
-    // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
-    @RequestMapping("/")
-    public String home(Model ui, WebRequest webRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof User) {
-            User user = (User) authentication.getPrincipal();
-            TodoUser todoUser = todoUsersDAO.findUserByLogin(user.getUsername());
-            webRequest.setAttribute("user", todoUser, WebRequest.SCOPE_SESSION);
-            //TODO КОд ниже надо убрать, перевести на ОЙАКС
-            ui.addAttribute("task", new TodoTask());
-            ui.addAttribute("tasksList", todoListsDAO.getListsWithPublic(todoUser));
-            return "todolist";
-        } else
-            return "redirect:/login";
-    }
 
     //Обрабока фейла
     @RequestMapping("/loginfailed")
@@ -89,12 +69,6 @@ public class LoginController {
         }
         todoUsersDAO.addUser(user);
         return "redirect:/";
-    }
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
 }

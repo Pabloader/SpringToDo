@@ -1,11 +1,16 @@
 package ru.todo.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import ru.todo.dao.TodoListsDAO;
@@ -24,7 +29,6 @@ public class TodoController {
     private TodoUsersDAO todoUsersDAO;
     @Autowired
     private TodoListsDAO todoListsDAO;
-    
 
     // Заполняем модель бином задачи (для добавления новой) и выдаем список всех задач
     @RequestMapping("/")
@@ -38,6 +42,12 @@ public class TodoController {
             return "todolist";
         } else
             return "redirect:/login";
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
 }

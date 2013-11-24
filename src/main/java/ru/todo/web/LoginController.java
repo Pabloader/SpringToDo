@@ -71,10 +71,4 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
-
 }

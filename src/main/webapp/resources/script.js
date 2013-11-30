@@ -57,10 +57,11 @@ $(document).ready(function() {
         $('#task-dialog #task-target-date').datepicker({dateFormat: 'dd.mm.yy', showButtonPanel: true, showOtherMonths: true, selectOtherMonths: true});
 
         // Заполняем поля значениями старых параметров
-        $('#task-dialog #edit-task-title').attr('value', $this.siblings('h1').html());
-        $('#task-dialog #edit-task-target-date').attr('value', $this.siblings('.width34-form-block').children('.target-date').html());
-        $('#task-dialog #edit-task-priority').attr('value', $this.siblings('.width34-form-block').children('.priority').html());
-        $('#task-dialog #edit-task-content').html($this.siblings('.width64-form-block').html());
+        $('#task-dialog #edit-task-title').val($this.siblings('h1').text());
+        $('#task-dialog #edit-task-target-date').val($this.siblings('.width34-form-block').children('.target-date').text());
+        $('#task-dialog #edit-task-priority').val($this.siblings('.width34-form-block').children('.priority').text());
+        $('#task-dialog #edit-task-content').text($this.siblings('.width64-form-block').text());
+        $('#task-dialog #edit-task-completed').attr("checked", $this.siblings('.width34-form-block').children('.completed').text() === "Выполнено!");
 
         // Вешаем обработчик на клик по кнопке обновления задачи
         $('#edit-send-button').click(function() {

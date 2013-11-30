@@ -26,20 +26,19 @@
     <body>
 
         <header>
-            <!-- TODO Сделать по человечески -->
             <button class="link-button" name="RSS" value="RSS">
                 <a href="<c:url value="/rss"/>">Получить RSSинку</a>
             </button>
 
-            <div id="userinfo">
-                <sec:authorize access="isAuthenticated()">
+            <sec:authorize access="isAuthenticated()">
+                <div id="userinfo">
                     Информация о вошедшем юзере
                     <b><sec:authentication property="principal.username" /></b>
                     <button class="disagree-button" name="logout" value="Выйти">
                         <a href="<c:url value="j_spring_security_logout" />">Выйти</a>
                     </button>
-                </sec:authorize>
-            </div>
+                </div>
+            </sec:authorize>
         </header>
 
         <div class="page-block add-task-block">

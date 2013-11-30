@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,12 +28,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries({
     @NamedQuery(name = "TodoUser.findAll", query = "SELECT t FROM TodoUser t"),
     @NamedQuery(name = "TodoUser.findById", query = "SELECT t FROM TodoUser t WHERE t.id = :id"),
-    @NamedQuery(name = "TodoUser.findByLogin", query = "SELECT t FROM TodoUser t WHERE t.login = :login"),
-    @NamedQuery(name = "TodoUser.findByPassword", query = "SELECT t FROM TodoUser t WHERE t.password = :password"),
-    @NamedQuery(name = "TodoUser.findByRole", query = "SELECT t FROM TodoUser t WHERE t.role = :role")})
+    @NamedQuery(name = "TodoUser.findByLogin", query = "SELECT t FROM TodoUser t WHERE t.login = :login")})
 public class TodoUser implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,9 +123,8 @@ public class TodoUser implements Serializable {
     public void setLists(List<TodoList> lists) {
         this.lists = lists;
     }
-
     //</editor-fold>
-    
+
     @Override
     public String toString() {
         return "TodoUser{" + "id=" + id + ", login=" + login + ", role=" + role + '}';

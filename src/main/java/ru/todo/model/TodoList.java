@@ -34,7 +34,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "TodoList.findByPubStatus", query = "SELECT t FROM TodoList t WHERE t.pubStatus > 0 AND t.author.id != :author_id")})
 public class TodoList implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     public static final int STATUS_PRIVATE = 0;
     public static final int STATUS_PUBLIC_READ = 1;
     public static final int STATUS_PUBLIC_EDIT = 2;
@@ -114,7 +113,6 @@ public class TodoList implements Serializable {
     public void setTasks(List<TodoTask> tasks) {
         this.tasks = tasks;
     }
-
 //</editor-fold>
 
     @Override

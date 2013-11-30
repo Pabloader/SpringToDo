@@ -31,13 +31,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TodoTask.findAll", query = "SELECT t FROM TodoTask t"),
     @NamedQuery(name = "TodoTask.findAllPublic", query = "SELECT t FROM TodoTask t WHERE t.list.pubStatus > 0"),
-    @NamedQuery(name = "TodoTask.findById", query = "SELECT t FROM TodoTask t WHERE t.id = :id"),
-    @NamedQuery(name = "TodoTask.findByTitle", query = "SELECT t FROM TodoTask t WHERE t.title = :title"),
-    @NamedQuery(name = "TodoTask.findByCompleted", query = "SELECT t FROM TodoTask t WHERE t.completed = :completed"),
-    @NamedQuery(name = "TodoTask.findByPriority", query = "SELECT t FROM TodoTask t WHERE t.priority = :priority")})
+    @NamedQuery(name = "TodoTask.findById", query = "SELECT t FROM TodoTask t WHERE t.id = :id")})
 public class TodoTask implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -170,8 +165,8 @@ public class TodoTask implements Serializable {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
     //</editor-fold>
+
     @Override
     public String toString() {
         return "TodoTask{" + "id=" + id + ", author=" + author + ", list=" + list + ", title=" + title + ", content=" + content + ", creationTime=" + creationTime + ", targetTime=" + targetTime + ", completed=" + completed + ", priority=" + priority + '}';

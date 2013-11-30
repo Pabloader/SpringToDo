@@ -23,6 +23,10 @@ import ru.todo.model.TodoUser;
  */
 @Controller
 public class TodoController {
+    /**
+     * Формат даты, используемый в приложении
+     */
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     @Autowired
     private TodoUsersDAO todoUsersDAO;
     @Autowired
@@ -45,8 +49,7 @@ public class TodoController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(DATE_FORMAT, false));
     }
 
 }

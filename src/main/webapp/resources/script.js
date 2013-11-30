@@ -1,7 +1,43 @@
 // Функция jQuery, по готовности документа делаем много добра
 $(document).ready(function() {
+    var deleteFunc = function() {
+        var $this = $(this);
+        var $taskID = $this.data("id");
+        $.ajax({
+            url: 'api/deleteTask', type: 'GET',
+            data: {'id': $taskID},
+            success: function(data) {
+                if (data === "success")
+                    $this.parent().remove();
+                else
+                    alert("Ошибка при удалении записи: " + data + "!");
+            },
+            error: function() {
+                alert("Ошибка при удалении записи!");
+            }
+        });
+    };
     // Установка календаря jQuery UI для поля ввода даты
-    $('#task-target-date').datepicker({dateFormat: 'dd.mm.yy', showButtonPanel: true, showOtherMonths: true, selectOtherMonths: true});
+    $.datepicker.regional['ru'] = {
+        closeText: 'Закрыть',
+        prevText: '&#x3c;Пред',
+        nextText: 'След&#x3e;',
+        currentText: 'Сегодня',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+            'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+        dayNames: ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'],
+        dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+        dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        dateFormat: 'dd.mm.yy',
+        firstDay: 1,
+        isRTL: false
+    };
+    $.datepicker.setDefaults($.datepicker.regional['ru']);
+    $('#task-target-date').datepicker({
+        dateFormat: 'dd.mm.yy', showButtonPanel: true,
+        showOtherMonths: true, selectOtherMonths: true});
 
     // Обработчик класса content-wrapper
     $('.task-list-div>h1').click(function() {
@@ -9,17 +45,7 @@ $(document).ready(function() {
     });
 
     // Обработчик по кнопке удаления задачи
-    $('.delete-task-button').click(function() {
-        var $this = $(this);
-        var $taskID = $this.data("id");
-        $.ajax({
-            url: 'api/deleteTask', type: 'GET',
-            data: {'id': $taskID},
-            success: function() {
-                $this.parent().remove();
-            }
-        });
-    });
+    $('.delete-task-button').click(deleteFunc);
 
     // Обработчик по кнопке редактирования задачи
     $('.edit-task-button').click(function() {
@@ -76,28 +102,24 @@ $(document).ready(function() {
                 'content': $taskContent, 'targetTime': $targetDate,
                 'priority': $taskPriority
             },
-            success: function(data) {
-                var $insert = $('<div class="page-block task-block"></div>');
-                $insert.append('<h1>' + data.title + '</h1>');
-                $insert.append('<button data-id="' + data.id + '" class="delete-task-button" name="delete-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/delete-icon.png"/></button>');
-                $insert.append('<div class="width34-form-block">Автор: <strong>' + data.author.login + '</strong><br/>'
-                        + 'Дата создания: ' + $.datepicker.formatDate('dd.mm.yy', new Date(data.creationTime)) + '<br/>'
-                        + 'Дата выполнения: ' + $.datepicker.formatDate('dd.mm.yy', new Date(data.targetTime)) + '<br/>'
-                        + (data.completed ? 'Выполнено!' : 'Не выполнено!') + '<br/>Приоритет:' + data.priority + '<br/></div>');
-                $insert.append('<div class="width64-form-block">' + data.content + '</div>');
-                var $listID = data.list.id;
-                $(".task-list-div[data-list-id=" + $listID + "]>.content-wrapper").prepend($insert);
-                $('.delete-task-button').click(function() {
-                    var $this = $(this);
-                    var $taskID = $this.data("id");
-                    $.ajax({
-                        url: 'api/deleteTask', type: 'GET',
-                        data: {'id': $taskID},
-                        success: function() {
-                            $this.parent().remove();
-                        }
-                    });
-                });
+            success: function(task) {
+                if (task) {
+                    var $insert = $('<div class="page-block task-block"/>');
+                    $insert.append('<h1>' + task.title + '</h1>');
+                    $insert.append('<button data-id="' + task.id + '" class="delete-task-button" name="delete-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/delete-icon.png"/></button>');
+                    $insert.append('<div class="width34-form-block">Автор: <strong>' + task.author.login + '</strong><br/>'
+                            + 'Дата создания: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.creationTime)) + '<br/>'
+                            + 'Дата выполнения: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.targetTime)) + '<br/>'
+                            + (task.completed ? 'Выполнено!' : 'Не выполнено!') + '<br/>Приоритет:' + task.priority + '<br/></div>');
+                    $insert.append('<div class="width64-form-block">' + task.content + '</div>');
+                    $(".task-list-div[data-list-id=" + task.list.id + "]>.content-wrapper").prepend($insert);
+                    $('.delete-task-button').click(deleteFunc);
+                }
+                else
+                    alert("Ошибка при добавлении записи!");
+            },
+            error: function() {
+                alert("Ошибка при добавлении записи!");
             }
         });
     });

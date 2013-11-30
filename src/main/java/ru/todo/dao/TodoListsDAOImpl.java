@@ -26,16 +26,12 @@ public class TodoListsDAOImpl implements TodoListsDAO {
 
     @Override
     public List<TodoList> getPublicLists(TodoUser currentUser) {
-        List<TodoList> lists = sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").setParameter("author_id", currentUser.getId()).list();
-        TodoList freeList = new TodoList(0, "Без категории", TodoList.STATUS_PRIVATE);
-        List<TodoTask> freeTasks = todoTasksDAO.listFreeTasks();
-        List<TodoTask> tasks = new ArrayList<TodoTask>();
-        for (TodoTask task : freeTasks)
-            if (task.getAuthor().getId() == currentUser.getId())
-                tasks.add(task);
-        freeList.setTasks(tasks);
-        lists.add(freeList);
-        return lists;
+        return sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").setParameter("author_id", currentUser.getId()).list();
+    }
+
+    @Override
+    public List<TodoList> getPublicLists() {
+        return sessionFactory.getCurrentSession().getNamedQuery("TodoList.findByPubStatus").setParameter("author_id", 0).list();
     }
 
     @Override

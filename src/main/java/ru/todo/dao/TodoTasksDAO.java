@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ru.todo.dao;
 
 import java.util.List;
@@ -16,8 +15,11 @@ import ru.todo.model.TodoTask;
 public interface TodoTasksDAO {
 
     public void addTask(TodoTask task);
+
     public void deleteTask(TodoTask task);
-    public List<TodoTask> listFreeTasks();
+
     public TodoTask findTaskById(int id);
+
+    public List<TodoTask> getAllPublicTasks();
 
 }

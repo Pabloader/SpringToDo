@@ -17,6 +17,7 @@ import ru.todo.model.TodoUser;
 public interface TodoListsDAO {
 
     public List<TodoList> getPublicLists(TodoUser currentUser);
+    public List<TodoList> getPublicLists();
     public List<TodoList> getListsWithPublic(TodoUser user);
     public TodoList findListById(int id);
     

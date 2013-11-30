@@ -33,8 +33,8 @@ public class TodoTasksDAOImpl implements TodoTasksDAO {
     }
 
     @Override
-    public List<TodoTask> listFreeTasks() {
-        return sessionFactory.getCurrentSession().getNamedQuery("TodoTask.findAllFree").list();
+    public List<TodoTask> getAllPublicTasks() {
+        return sessionFactory.getCurrentSession().getNamedQuery("TodoTask.findAllPublic").list();
     }
 
 }

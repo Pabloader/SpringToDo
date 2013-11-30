@@ -19,13 +19,22 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
                     и замаппим их на урл вида /resources/**
     -->
     <resources mapping="/resources/**" location="/resources/"/>
+    
+    <!-- Нужно для экспорта в RSS -->
+    <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver" >
+        <beans:property name="order" value="0" />
+    </beans:bean>
+    <beans:bean id="rssViewer" class="ru.todo.rss.CustomRssViewer" />
+    
     <!--
      Отображение видов на jsp-файлы, лежащие в папке /WEB-INF/views
     -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jsp"/>
+        <beans:property name="order" value="1" />
     </beans:bean>
+    
     <!--  Файл с настройками контроллеров  -->
     <beans:import resource="controllers.xml"/>
 </beans:beans>

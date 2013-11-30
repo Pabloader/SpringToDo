@@ -15,7 +15,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="<c:url value="/resources/style.css"/>" />
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.css"/>
+        <link rel="alternate" title="Spring TODO application" href="<c:url value="/rss"/>" type="application/rss+xml"/>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -23,6 +24,9 @@
         <title>Todo list!</title>
     </head>
     <body>
+
+        <!-- TODO Сделать по человечески -->
+        <a href="<c:url value="/rss"/>">RSS</a>
 
         <div id="userinfo">
             <sec:authorize access="isAuthenticated()">

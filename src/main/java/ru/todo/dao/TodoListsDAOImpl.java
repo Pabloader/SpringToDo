@@ -21,8 +21,6 @@ import ru.todo.model.TodoUser;
 public class TodoListsDAOImpl implements TodoListsDAO {
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
-    private TodoTasksDAO todoTasksDAO;
 
     @Override
     public List<TodoList> getPublicLists(TodoUser currentUser) {
@@ -52,5 +50,15 @@ public class TodoListsDAOImpl implements TodoListsDAO {
     @Override
     public TodoList findListById(int id) {
         return (TodoList) sessionFactory.getCurrentSession().getNamedQuery("TodoList.findById").setParameter("id", id).uniqueResult();
+    }
+
+    @Override
+    public void addList(TodoList list) {
+        sessionFactory.getCurrentSession().save(list);
+    }
+
+    @Override
+    public void deleteList(TodoList list) {
+        sessionFactory.getCurrentSession().delete(list);
     }
 }

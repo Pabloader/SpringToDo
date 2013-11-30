@@ -31,7 +31,7 @@ import ru.todo.model.TodoUser;
  */
 @Controller
 @RequestMapping("/api")
-public class APIController {
+public class TaskAPIController {
 
     @Autowired
     private TodoTasksDAO todoTasksDAO;
@@ -66,7 +66,42 @@ public class APIController {
         return null;
     }
 
-    @RequestMapping(value = "deleteTask", method = RequestMethod.GET)
+    @RequestMapping(value = "editTask", method = RequestMethod.POST)
+    public @ResponseBody
+    TodoTask editTask(@RequestParam Integer id, @RequestParam String title, @RequestParam String content,
+                      @RequestParam String targetTime, @RequestParam Integer priority, @RequestParam boolean completed,
+                      @RequestParam Integer list, WebRequest webRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
+            TodoTask task = todoTasksDAO.findTaskById(id);
+            if (task == null)
+                return null;
+
+            TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
+            if (task.getAuthor().getId() != todoUser.getId()
+                && !"ROLE_ADMIN".equals(todoUser.getRole())
+                && task.getList().getPubStatus() != TodoList.STATUS_PUBLIC_EDIT)
+                return null;
+            task.setTitle(title);
+            task.setContent(content);
+            task.setCompleted(completed);
+            Date target;
+            try {
+                target = new SimpleDateFormat("dd.MM.yyyy").parse(targetTime);
+                task.setTargetTime(target);
+            } catch (ParseException ex) {
+                return null;
+            }
+            task.setPriority(priority);
+            TodoList todoList = todoListsDAO.findListById(list);
+            task.setList(todoList);
+            todoTasksDAO.addTask(task);
+            return task;
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "deleteTask")
     public @ResponseBody
     String deleteTask(@RequestParam Integer id, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -28,13 +28,13 @@
         <!-- TODO Сделать по человечески -->
         <a href="<c:url value="/rss"/>">RSS</a>
 
-        <div id="userinfo">
-            <sec:authorize access="isAuthenticated()">
+        <sec:authorize access="isAuthenticated()">
+            <div id="userinfo">
                 Информация о вошедшем юзере
                 <b><sec:authentication property="principal.username" /></b><br/>
                 <a href="<c:url value="j_spring_security_logout" />"> ВЫЙТЕ!!!11</a>
-            </sec:authorize>
-        </div>
+            </div>
+        </sec:authorize>
 
         <div class="page-block add-task-block">
             <h1>Форма создания новой задачи (jQuery)</h1>

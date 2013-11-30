@@ -13,13 +13,22 @@
         <div class="page-block register-block">
             <h1>Форма регистрации</h1>
             <form:form id="registerForm" method="POST" action="register" commandName="newUser">
+                <c:if test="${!empty error}">
+                    <div class="ui-state-error ui-corner-all"> 
+                        <p>
+                            <span class="ui-icon ui-icon-alert" 
+                                  style="float: left; margin-right: .3em;"></span>
+                            ${error}
+                        </p>
+                    </div>
+                </c:if>
                 <label for="login">Как ВасЪ величать:</label>
                 <form:input id="login" path="login" />
                 <label for="password">Извольте указать кодовое слово:</label>
                 <form:input id="password" path="password" />
                 <input type="submit" class="agree-button" name="register-submit" value="Отправить в реестрЪ"/>
-                <a href="${pageContext.servletContext.contextPath}/login">
-                    <input type="button" id="registerRedirect" class="link-button" value="Проверить слова указанные" />
+                <a href="<c:url value="/login"/>">
+                    <input type="button" id="registerRedirect" class="link-button" value="Предъявить документЪ" />
                 </a>
             </form:form>
         </div>

@@ -56,7 +56,8 @@ public class ListAPIController {
                 return null;
 
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
-            if (list.getAuthor().getId() != todoUser.getId() && !"ROLE_ADMIN".equals(todoUser.getRole()))
+            if (list.getAuthor().getId().intValue() != todoUser.getId().intValue()
+                && !"ROLE_ADMIN".equals(todoUser.getRole()))
                 return null;
             list.setTitle(title);
             list.setPubStatus(pubStatus);
@@ -73,7 +74,8 @@ public class ListAPIController {
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             TodoList list = todoListsDAO.findListById(id);
-            if (list.getAuthor().getId() == user.getId() || "ROLE_ADMIN".equals(user.getRole())) {
+            if (list.getAuthor().getId().intValue() == user.getId().intValue()
+                || "ROLE_ADMIN".equals(user.getRole())) {
                 todoListsDAO.deleteList(list);
                 return "success";
             }

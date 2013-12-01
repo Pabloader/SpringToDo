@@ -48,9 +48,11 @@ public class TaskAPIController {
             if (todoList == null)
                 return null;
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
-            if (todoList.getAuthor().getId() != todoUser.getId()
+            task.setAuthor(todoUser);
+            task.setList(todoList);
+            if (todoList.getAuthor().getId().intValue() != todoUser.getId().intValue()
                 && !"ROLE_ADMIN".equals(todoUser.getRole())
-                && task.getList().getPubStatus() != TodoList.STATUS_PUBLIC_EDIT)
+                && todoList.getPubStatus() != TodoList.STATUS_PUBLIC_EDIT)
                 return null;
             try {
                 Date target = TodoController.DATE_FORMAT.parse(targetTime);
@@ -61,8 +63,6 @@ public class TaskAPIController {
             task.setTitle(title);
             task.setContent(content);
             task.setPriority(priority);
-            task.setAuthor(todoUser);
-            task.setList(todoList);
             todoTasksDAO.addTask(task);
             return task;
         }
@@ -83,7 +83,7 @@ public class TaskAPIController {
             TodoUser todoUser = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             TodoList todoList = todoListsDAO.findListById(list);
             // Имеет ли право автор редактировать это сообщение
-            if (task.getAuthor().getId() != todoUser.getId()
+            if (task.getAuthor().getId().intValue() != todoUser.getId().intValue()
                 && !"ROLE_ADMIN".equals(todoUser.getRole())
                 && task.getList().getPubStatus() != TodoList.STATUS_PUBLIC_EDIT)
                 return null;
@@ -111,13 +111,14 @@ public class TaskAPIController {
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);
             TodoTask task = todoTasksDAO.findTaskById(id);
-            if (task.getAuthor().getId() == user.getId()
+            if (task.getAuthor().getId().intValue() == user.getId().intValue()
                 || task.getList().getPubStatus() == TodoList.STATUS_PUBLIC_EDIT
                 || "ROLE_ADMIN".equals(user.getRole())) {
                 todoTasksDAO.deleteTask(task);
                 return "success";
             }
+            return "access denied";
         }
-        return "error";
+        return "not authorised";
     }
 }

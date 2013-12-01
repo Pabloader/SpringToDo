@@ -68,7 +68,7 @@ public class ListAPIController {
 
     @RequestMapping(value = "deleteList")
     public @ResponseBody
-    String deleteTask(@RequestParam Integer id, WebRequest webRequest) {
+    String deleteList(@RequestParam Integer id, WebRequest webRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && (authentication.getPrincipal() instanceof User)) {
             TodoUser user = (TodoUser) webRequest.getAttribute("user", WebRequest.SCOPE_SESSION);

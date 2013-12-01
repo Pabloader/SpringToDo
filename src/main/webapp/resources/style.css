@@ -92,7 +92,8 @@ input[type="button"]:active {
 .link-button {
     background: linear-gradient(to bottom, #1388ef 1%,#3690f0 23%,#54a3ee 78%,#6db3f2 100%);
 }
-.delete-task-button {
+.delete-task-button,
+.delete-list-button {
     background-color: white;
     outline: none;
     display: inline-block;
@@ -103,7 +104,8 @@ input[type="button"]:active {
     right: 8px;
     top: 5px;
 }
-.edit-task-button {
+.edit-task-button,
+.edit-list-button {
     background-color: white;
     outline: none;
     display: inline-block;
@@ -161,12 +163,17 @@ input[type="button"]:active {
     border: 1px solid black;
     padding: 10px;
     margin: 10px 2%;
+    position: relative;
 }
 
 .content-wrapper {
     display:none;
 }
-#task-dialog {display: none;}
+#task-dialog,
+#edit-list-dialog,
+#add-list-dialog {
+    display: none;
+}
 .author {
     font-weight: bold;
 }

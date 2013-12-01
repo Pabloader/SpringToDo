@@ -43,7 +43,7 @@
 
         <div class="page-block add-task-block">
             <h1>Создание задачи</h1>
-            <form id="task-add-form" method="POST" action="api/addTask">
+            <form id="task-add-form" method="POST">
                 <div class="width34-form-block">
                     <label for="task-title">Заголовок задачи</label>
                     <input type="text" id="task-title" placeholder="Заголовок..."/>
@@ -51,7 +51,7 @@
                     <select id="task-parent">
                         <c:forEach items="${lists}" var="list">
                             <c:if test="${(list.author.id == author.id)||(list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
-                                <option value="${list.id}">${list.title}</option>
+                                <option value="<c:out value="${list.id}"/>"><c:out value="${list.title}"/></option>
                             </c:if>
                         </c:forEach>
                     </select>
@@ -65,12 +65,13 @@
                     <textarea id="task-content" rows="12" cols="25" id="task-content" value="task-content" placeholder="Содержание задачи..."></textarea>
                 </div>
                 <input type="button" class="agree-button" id="add-task-button" name="add-task-button" value="Сохранить задачу" />
+                <input type="button" class="link-button" id="add-list-button" value="Создать список..." />
             </form>
         </div>
 
         <div id="task-dialog" title="Изменение задачи">
             <h1>Изменение задачи</h1>
-            <form id="task-add-form" method="POST" action="api/editTask">
+            <form id="task-add-form" method="POST">
                 <div class="width34-form-block">
                     <label for="edit-task-title">Заголовок задачи</label>
                     <input type="text" id="edit-task-title" placeholder="Заголовок..."/>
@@ -78,7 +79,7 @@
                     <select id="edit-task-parent">
                         <c:forEach items="${lists}" var="list">
                             <c:if test="${(list.author.id == author.id)||(list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
-                                <option value="${list.id}">${list.title}</option>
+                                <option value="<c:out value="${list.id}"/>"><c:out value="${list.title}"/></option>
                             </c:if>
                         </c:forEach>
                     </select>
@@ -93,41 +94,81 @@
                     <label for="task-content">Содержание задачи:</label>
                     <textarea id="edit-task-content" rows="12" cols="25" id="task-content" value="task-content" placeholder="Содержание задачи..."></textarea>
                 </div>
-                <input type="button" class="agree-button" id="edit-send-button" name="edit-task-button" value="Сохранить изменения..." />
+                <input type="button" class="agree-button" id="edit-send-button" name="edit-task-button" value="Сохранить изменения" />
+            </form>
+        </div>
+
+        <div id="add-list-dialog" title="Создание списка">
+            <h1>Создание списка</h1>
+            <form id="list-add-form" method="POST">
+                <label for="add-list-title">Заголовок списка:</label>
+                <input type="text" id="add-list-title" placeholder="Заголовок..."/>
+                <label for="add-list-pub-status">Опубликовать:</label>
+                <select id="add-list-pub-status">
+                    <option value="0">Не опубликовывать</option>
+                    <option value="1">Опубликовать для чтения</option>
+                    <option value="2">Опубликовать для редактирования</option>
+                </select>
+                <input type="button" class="agree-button" id="add-list-send-button" value="Добавить" />
+            </form>
+        </div>
+
+        <div id="edit-list-dialog" title="Редактирование списка">
+            <h1>Редактирование списка</h1>
+            <form id="list-edit-form" method="POST">
+                <label for="edit-list-title">Заголовок списка:</label>
+                <input type="text" id="edit-list-title" placeholder="Заголовок..."/>
+                <label for="edit-list-pub-status">Опубликовать:</label>
+                <select id="edit-list-pub-status">
+                    <option value="0">Не опубликовывать</option>
+                    <option value="1">Опубликовать для чтения</option>
+                    <option value="2">Опубликовать для редактирования</option>
+                </select>
+                <input type="button" class="agree-button" id="edit-list-send-button" value="Сохранить" />
             </form>
         </div>
 
         <h1>Здесь типа список списков, а внутри - списки доступных задач</h1>
-        <c:forEach items="${lists}" var="list">
-            <div class="task-list-div" data-list-id="${list.id}">
-                <h1>${list.title}</h1>
-                <div class="content-wrapper">
-                    <c:forEach items="${list.tasks}" var="task">
-                        <div class="page-block task-block">
-                            <h1>${task.title}</h1>
-                            <c:if test="${author.id == task.author.id || (list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
-                                <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
-                                    <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
-                                </button>
-                                <button data-id="${task.id}" class="edit-task-button" name="edit-task-button" >
-                                    <img draggable="false" width="15" height="15" src="<c:url value="/resources/edit-icon.png"/>" >
-                                </button>
-                            </c:if>
-                            <div class="width34-form-block">
-                                Автор:
-                                <span class="author">${task.author.login}</span><br/>
-                                Дата создания:
-                                <span class="creation-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.creationTime}" /></span><br/>
-                                Дата выполнения:<span class="target-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /></span><br/>
-                                <span class="completed">${task.completed ? 'Выполнено!' : 'Не выполнено!'}</span><br/>
-                                Приоритет:
-                                <span class="priority">${task.priority}</span><br/>
+        <div id="lists-wrapper">
+            <c:forEach items="${lists}" var="list">
+                <div class="task-list-div" data-list-id="${list.id}">
+                    <h1><c:out value="${list.title}"/></h1>
+                    <c:if test="${author.id == list.author.id || author.role=='ROLE_ADMIN'}">
+                        <button data-id="${list.id}" class="delete-list-button">
+                            <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
+                        </button>
+                        <button data-id="${list.id}" class="edit-list-button">
+                            <img draggable="false" width="15" height="15" src="<c:url value="/resources/edit-icon.png"/>" >
+                        </button>
+                    </c:if>
+                    <div class="content-wrapper">
+                        <c:forEach items="${list.tasks}" var="task">
+                            <div class="page-block task-block">
+                                <h1><c:out value="${task.title}"/></h1>
+                                <c:if test="${author.id == task.author.id || (list.pubStatus == 2) || author.role=='ROLE_ADMIN'}">
+                                    <button data-id="${task.id}" class="delete-task-button" name="delete-task-button" >
+                                        <img draggable="false" width="15" height="15" src="<c:url value="/resources/delete-icon.png"/>" >
+                                    </button>
+                                    <button data-id="${task.id}" class="edit-task-button" name="edit-task-button" >
+                                        <img draggable="false" width="15" height="15" src="<c:url value="/resources/edit-icon.png"/>" >
+                                    </button>
+                                </c:if>
+                                <div class="width34-form-block">
+                                    Автор:
+                                    <span class="author"><c:out value="${task.author.login}"/></span><br/>
+                                    Дата создания:
+                                    <span class="creation-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.creationTime}" /></span><br/>
+                                    Дата выполнения:<span class="target-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /></span><br/>
+                                    <span class="completed">${task.completed ? 'Выполнено!' : 'Не выполнено!'}</span><br/>
+                                    Приоритет:
+                                    <span class="priority">${task.priority}</span><br/>
+                                </div>
+                                <div class="width64-form-block"><c:out value="${task.content}"/></div>
                             </div>
-                            <div class="width64-form-block">${task.content}</div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </body>
 </html>

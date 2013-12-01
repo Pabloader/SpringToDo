@@ -1,7 +1,10 @@
 // Функция jQuery, по готовности документа делаем много добра
 $(document).ready(function() {
+    // Указатель на прогресс-бар аякса
+    $img = $('.loading-animation').hide();
     // Функция удаления задачи
     var deleteTaskFunc = function() {
+        $img.show('fast');
         var $this = $(this);
         var $taskID = $this.data("id");
         $.ajax({
@@ -12,15 +15,18 @@ $(document).ready(function() {
                     $this.parent().remove();
                 else
                     alert("Ошибка при удалении записи: " + data + "!");
+                $img.hide('fast');
             },
             error: function() {
                 alert("Ошибка при удалении записи!");
+                $img.hide('fast');
             }
         });
     };
 
     // Функция удаления списка
     var deleteListFunc = function() {
+        $img.show('fast');
         var $this = $(this);
         var $listID = $this.data("id");
         $.ajax({
@@ -35,8 +41,10 @@ $(document).ready(function() {
                 }
                 else
                     alert("Ошибка при удалении списка: " + data + "!");
+                $img.hide('fast');
             },
             error: function() {
+                $img.hide('fast');
                 alert("Ошибка при удалении списка!");
             }
         });
@@ -61,6 +69,7 @@ $(document).ready(function() {
 
         // Вешаем обработчик на клик по кнопке обновления задачи
         $('#edit-send-button').click(function() {
+            $img.show('fast');
             var $taskTitle = $('#edit-task-title').val();
             var $taskParentList = $('#edit-task-parent').val();
             var $targetDate = $('#edit-task-target-date').val();
@@ -84,6 +93,7 @@ $(document).ready(function() {
                         var $taskBlock = $this.parent();
                         $('.task-list-div[data-list-id=' + data.list.id + ']').children('.content-wrapper').append($taskBlock);
                     }
+                    $img.hide('fast');
                 }
             });
         });
@@ -103,6 +113,7 @@ $(document).ready(function() {
 
         // Вешаем обработчик на клик по кнопке обновления задачи
         $('#edit-list-send-button').click(function() {
+            $img.show('fast');
             var $listTitle = $('#edit-list-title').val();
             var $listPubStatus = $('#edit-list-pub-status').val();
             $.ajax({
@@ -116,6 +127,7 @@ $(document).ready(function() {
                     $this.siblings('h1').html(list.title);
                     // Модифицируем комбобоксы
                     $('#task-parent, #edit-task-parent').children('option[value=' + list.id + "]").text(list.title);
+                    $img.hide('fast');
                 }
             });
         });
@@ -156,7 +168,9 @@ $(document).ready(function() {
     // Обработчик по кнопке редактирования задачи
     $('.edit-task-button').click(editTaskFunc);
 
+    // Обработчик по кнопке удаления листа
     $('.delete-list-button').click(deleteListFunc);
+    // Обработчик по кнопке изменения листа
     $('.edit-list-button').click(editListFunc);
 
     // Обработчик по кнопке создания списка, показать диалог
@@ -168,6 +182,7 @@ $(document).ready(function() {
 
     // Обработчик на кнопку добавления задач
     $('#add-task-button').click(function() {
+        $img.show('fast');
         var $taskTitle = $('#task-title').val();
         var $taskParentList = $('#task-parent').val();
         var $targetDate = $('#task-target-date').val();
@@ -199,14 +214,17 @@ $(document).ready(function() {
                 }
                 else
                     alert("Ошибка при добавлении записи!");
+                $img.hide('fast');
             },
             error: function() {
                 alert("Ошибка при добавлении записи!");
+                $img.hide('fast');
             }
         });
     });
 
     $('#add-list-send-button').click(function() {
+        $img.show('fast');
         var $listTitle = $('#add-list-title').val();
         var $listPubStatus = $('#add-list-pub-status').val();
         $.ajax({
@@ -235,8 +253,10 @@ $(document).ready(function() {
                 }
                 else
                     alert("Ошибка при добавлении записи!");
+                $img.hide('fast');
             },
             error: function() {
+                $img.hide('fast');
                 alert("Ошибка при добавлении записи!");
             }
         });

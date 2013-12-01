@@ -27,7 +27,7 @@ public class LoginController {
     //Обрабока фейла
     @RequestMapping("/loginfailed")
     public String loginFailed(Model ui) {
-        ui.addAttribute("error", "invalid.credetials");
+        ui.addAttribute("error", "Введен неправильный логин/пароль!");
         return "login";
     }
 
@@ -55,7 +55,7 @@ public class LoginController {
     public String registerNewUser(@ModelAttribute("newUser") TodoUser user, BindingResult result, Model ui) {
 
         if (todoUsersDAO.findUserByLogin(user.getLogin()) != null) {
-            ui.addAttribute("error", "user.exists");
+            ui.addAttribute("error", "Пользователь уже существует!");
             ui.addAttribute("newUser", user);
             return "register";
         }

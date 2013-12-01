@@ -25,6 +25,8 @@
     </head>
     <body>
 
+        <img class="loading-animation" src="<c:url value="/resources/loading.gif"/>" width="200" height="25" alt="loading"/>
+
         <header>
             <button class="link-button" name="RSS" value="RSS">
                 <a href="<c:url value="/rss"/>">Получить RSSинку</a>

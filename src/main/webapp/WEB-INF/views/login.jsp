@@ -18,12 +18,12 @@
     </head>
     <body>
         <div class="page-block register-block">
-            <h1>Наши милые тудушки!</h1>
+            <h1>ТуДу аппликасьон!</h1>
             <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
                 <c:if test="${!empty error}">
-                    <div class="ui-state-error ui-corner-all"> 
+                    <div class="ui-state-error ui-corner-all">
                         <p>
-                            <span class="ui-icon ui-icon-alert" 
+                            <span class="ui-icon ui-icon-alert"
                                   style="float: left; margin-right: .3em;"></span>
                             ${error}
                         </p>

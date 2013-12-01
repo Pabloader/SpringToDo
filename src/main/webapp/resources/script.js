@@ -201,10 +201,10 @@ $(document).ready(function() {
                     $('<h1>').text(task.title).appendTo($insert);
                     $insert.append('<button data-id="' + task.id + '" class="delete-task-button" name="delete-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/delete-icon.png"/></button>');
                     $insert.append('<button data-id="' + task.id + '" class="edit-task-button" name="edit-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/edit-icon.png"/></button>');
-                    $insert.append('<div class="width34-form-block">Автор: <strong>' + task.author.login + '</strong><br/>'
-                            + 'Дата создания: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.creationTime)) + '<br/>'
-                            + 'Дата выполнения: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.targetTime)) + '<br/>'
-                            + (task.completed ? 'Выполнено!' : 'Не выполнено!') + '<br/>Приоритет:' + task.priority + '<br/></div>');
+                    $insert.append('<div class="width34-form-block">Автор:<span class="author">' + task.author.login + '</span><br/>'
+                            + 'Дата создания:<span class="creation-date">' + $.datepicker.formatDate('dd.mm.yy', new Date(task.creationTime)) + '</span><br/>'
+                            + 'Дата выполнения:<span class="target-date">' + $.datepicker.formatDate('dd.mm.yy', new Date(task.targetTime)) + '</span><br/>'
+                            + '<span class="completed">' + (task.completed ? 'Выполнено!' : 'Не выполнено!') + '</span><br/>Приоритет:<span class="priority">' + task.priority + '</span><br/></div>');
                     $('<div class="width64-form-block">').text(task.content).appendTo($insert);
                     $(".task-list-div[data-list-id=" + task.list.id + "]>.content-wrapper").prepend($insert);
 

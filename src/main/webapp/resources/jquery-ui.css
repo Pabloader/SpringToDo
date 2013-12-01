@@ -675,19 +675,20 @@ button.ui-button::-moz-focus-inner {
 	top: 0;
 }
 .ui-spinner {
+        width:100%;
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
 	padding: 0;
 	vertical-align: middle;
+        margin-bottom: 3px;
 }
 .ui-spinner-input {
 	border: none;
 	background: none;
 	color: inherit;
 	padding: 0;
-	margin: .2em 0;
-	vertical-align: middle;
+        margin-top: 5px;
 	margin-left: .4em;
 	margin-right: 22px;
 }

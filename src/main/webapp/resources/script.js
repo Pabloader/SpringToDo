@@ -40,7 +40,8 @@ $(document).ready(function() {
     $('#task-target-date').datepicker({
         dateFormat: 'dd.mm.yy', showButtonPanel: true,
         showOtherMonths: true, selectOtherMonths: true});
-
+    // Устанавливаем спиннер на приоритет задачи
+    $('#task-priority').spinner();
     // Обработчик класса content-wrapper, анимация раскрытия списка
     $('.task-list-div>h1').click(function() {
         $(this).siblings('.content-wrapper').slideToggle(600);

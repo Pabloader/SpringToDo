@@ -42,6 +42,7 @@ $(document).ready(function() {
         showOtherMonths: true, selectOtherMonths: true});
     // Устанавливаем спиннер на приоритет задачи
     $('#task-priority').spinner();
+    $('#edit-task-priority').spinner();
     // Обработчик класса content-wrapper, анимация раскрытия списка
     $('.task-list-div>h1').click(function() {
         $(this).siblings('.content-wrapper').slideToggle(600);

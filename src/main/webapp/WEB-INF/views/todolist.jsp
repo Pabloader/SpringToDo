@@ -160,7 +160,8 @@
                                     <span class="author"><c:out value="${task.author.login}"/></span><br/>
                                     Дата создания:
                                     <span class="creation-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.creationTime}" /></span><br/>
-                                    Дата выполнения:<span class="target-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /></span><br/>
+                                    Дата выполнения:
+                                    <span class="target-date"><fmt:formatDate pattern="dd.MM.yyyy" value="${task.targetTime}" /></span><br/>
                                     <span class="completed">${task.completed ? 'Выполнено!' : 'Не выполнено!'}</span><br/>
                                     Приоритет:
                                     <span class="priority">${task.priority}</span><br/>

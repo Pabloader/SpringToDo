@@ -140,15 +140,11 @@ $(document).ready(function() {
     };
     $.datepicker.setDefaults($.datepicker.regional['ru']);
     // Устанавливаем календарь на поле ввода даты задачи
-    $('#task-target-date').datepicker({
-        dateFormat: 'dd.mm.yy', showButtonPanel: true,
-        showOtherMonths: true, selectOtherMonths: true});
-    $('#edit-task-target-date').datepicker({
+    $('#task-target-date, #edit-task-target-date').datepicker({
         dateFormat: 'dd.mm.yy', showButtonPanel: true,
         showOtherMonths: true, selectOtherMonths: true});
     // Устанавливаем спиннер на приоритет задачи
-    $('#task-priority').spinner();
-    $('#edit-task-priority').spinner();
+    $('#task-priority, #edit-task-priority').spinner({min:0, max: 999999999}).val(0);
     // Обработчик класса content-wrapper, анимация раскрытия списка
     $('.task-list-div>h1').click(function() {
         $(this).siblings('.content-wrapper').slideToggle(600);

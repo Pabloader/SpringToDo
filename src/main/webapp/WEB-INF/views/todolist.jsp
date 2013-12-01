@@ -58,7 +58,7 @@
                     <label for="task-title">Дата выполнения:</label>
                     <input type="text" id="task-target-date" placeholder="Введите дату..."/>
                     <label for="task-title">Приоритет:</label>
-                    <input type="text" id="task-priority" placeholder="Укажите приоритет задачи..."/>
+                    <input type="text" id="task-priority" placeholder="Укажите приоритет задачи..." maxlength="9"/>
                 </div>
                 <div class="width64-form-block">
                     <label for="task-content">Содержание задачи:</label>
@@ -86,7 +86,7 @@
                     <label for="edit-task-target-date">Дата выполнения:</label>
                     <input type="text" id="edit-task-target-date" placeholder="Введите дату..."/>
                     <label for="edit-task-priority">Приоритет:</label>
-                    <input type="text" id="edit-task-priority" placeholder="Укажите приоритет задачи..."/>
+                    <input type="text" id="edit-task-priority" placeholder="Укажите приоритет задачи..." maxlength="9"/>
                     <label for="edit-task-completed">Выполнено:</label>
                     <input type="checkbox" id="edit-task-completed">
                 </div>

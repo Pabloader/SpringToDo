@@ -1,5 +1,6 @@
 // Функция jQuery, по готовности документа делаем много добра
 $(document).ready(function() {
+    // Функция удаления задачи
     var deleteFunc = function() {
         var $this = $(this);
         var $taskID = $this.data("id");
@@ -17,7 +18,7 @@ $(document).ready(function() {
             }
         });
     };
-    // Установка календаря jQuery UI для поля ввода даты
+    // Установка региона календаря jQuery UI для поля ввода даты
     $.datepicker.regional['ru'] = {
         closeText: 'Закрыть',
         prevText: '&#x3c;Пред',
@@ -35,11 +36,12 @@ $(document).ready(function() {
         isRTL: false
     };
     $.datepicker.setDefaults($.datepicker.regional['ru']);
+    // Устанавливаем календарь на поле ввода даты задачи
     $('#task-target-date').datepicker({
         dateFormat: 'dd.mm.yy', showButtonPanel: true,
         showOtherMonths: true, selectOtherMonths: true});
 
-    // Обработчик класса content-wrapper
+    // Обработчик класса content-wrapper, анимация раскрытия списка
     $('.task-list-div>h1').click(function() {
         $(this).siblings('.content-wrapper').slideToggle(600);
     });
@@ -53,7 +55,7 @@ $(document).ready(function() {
         var $taskID = $this.data("id");
 
         // Обработчик диалогового мордального окна для изменения задачи
-        $('#task-dialog').dialog({ width: 500, modal: true });
+        $('#task-dialog').dialog({ width: 500, modal: true, show: "clip" });
         $('#task-dialog #task-target-date').datepicker({dateFormat: 'dd.mm.yy', showButtonPanel: true, showOtherMonths: true, selectOtherMonths: true});
 
         // Заполняем поля значениями старых параметров
@@ -78,6 +80,7 @@ $(document).ready(function() {
                     'targetTime': $targetDate, 'priority': $taskPriority, 'completed':$taskCompleted,
                     'list': $taskParentList },
                 success: function(data) {
+                    $('#task-dialog').dialog('close');
                     $this.siblings('h1').html(data.title);
                     $this.siblings('.width34-form-block').children('.target-date').html($.datepicker.formatDate('dd.mm.yy', new Date(data.targetTime)));
                     $this.siblings('.width34-form-block').children('.priority').html(data.priority);
@@ -86,7 +89,6 @@ $(document).ready(function() {
                     if (data.list.title !== $taskParentList) {
                         $taskBlock = $this.parent();
                         $('.task-list-div[data-list-id=' + data.list.id+']').children('.content-wrapper').append($taskBlock);
-
                     }
                 }
             });
@@ -121,6 +123,7 @@ $(document).ready(function() {
                     $insert.append('<div class="width64-form-block">' + task.content + '</div>');
                     $(".task-list-div[data-list-id=" + task.list.id + "]>.content-wrapper").prepend($insert);
                     $('.delete-task-button').click(deleteFunc);
+                    // todo $('.edit-task-button').click();
                 }
                 else
                     alert("Ошибка при добавлении записи!");

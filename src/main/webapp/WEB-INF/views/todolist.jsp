@@ -70,7 +70,7 @@
 
         <div id="task-dialog" title="Изменение задачи">
             <h1>Изменение задачи</h1>
-            <form id="task-add-form" method="POST" action="api/addTask">
+            <form id="task-add-form" method="POST" action="api/editTask">
                 <div class="width34-form-block">
                     <label for="edit-task-title">Заголовок задачи</label>
                     <input type="text" id="edit-task-title" placeholder="Заголовок..."/>
@@ -94,6 +94,7 @@
                     <textarea id="edit-task-content" rows="12" cols="25" id="task-content" value="task-content" placeholder="Содержание задачи..."></textarea>
                 </div>
                 <input type="button" class="agree-button" id="edit-send-button" name="edit-task-button" value="Сохранить изменения..." />
+            </form>
         </div>
 
         <h1>Здесь типа список списков, а внутри - списки доступных задач</h1>

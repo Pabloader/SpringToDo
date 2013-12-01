@@ -83,6 +83,11 @@ $(document).ready(function() {
                     $this.siblings('.width34-form-block').children('.priority').html(data.priority);
                     $this.siblings('.width34-form-block').children('.completed').html(data.completed ? 'Выполнено!' : 'Не выполнено!');
                     $this.siblings('.width64-form-block').html(data.content);
+                    if (data.list.title !== $taskParentList) {
+                        $taskBlock = $this.parent();
+                        $('.task-list-div[data-list-id=' + data.list.id+']').children('.content-wrapper').append($taskBlock);
+
+                    }
                 }
             });
 
@@ -108,6 +113,7 @@ $(document).ready(function() {
                     var $insert = $('<div class="page-block task-block"/>');
                     $insert.append('<h1>' + task.title + '</h1>');
                     $insert.append('<button data-id="' + task.id + '" class="delete-task-button" name="delete-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/delete-icon.png"/></button>');
+                    $insert.append('<button data-id="' + task.id + '" class="edit-task-button" name="edit-task-button" ><img draggable="false" width="15" height="15" src="/TODO/resources/edit-icon.png"/></button>');
                     $insert.append('<div class="width34-form-block">Автор: <strong>' + task.author.login + '</strong><br/>'
                             + 'Дата создания: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.creationTime)) + '<br/>'
                             + 'Дата выполнения: ' + $.datepicker.formatDate('dd.mm.yy', new Date(task.targetTime)) + '<br/>'
